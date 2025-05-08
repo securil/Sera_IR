@@ -241,104 +241,148 @@ const texts = {
 </style>
 
 <script>
-  // 파티클 효과 추가 (particles.js 라이브러리 활용)
+  // 직접 구현한 파티클 효과
   document.addEventListener('DOMContentLoaded', function() {
-    // 임시 대체 배경을 사용하여 particles.js가 없어도 시각적 효과가 보이도록 합니다
     const particleContainer = document.getElementById('particles-js');
     if (!particleContainer) return;
     
-    try {
-      if (typeof window.particlesJS !== 'undefined') {
-        window.particlesJS('particles-js', {
-          particles: {
-            number: { value: 80, density: { enable: true, value_area: 800 } },
-            color: { value: ["#ff3e9d", "#9d00ff"] },
-            shape: { type: "circle" },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            line_linked: {
-              enable: true,
-              distance: 150,
-              color: "#9d00ff", 
-              opacity: 0.2,
-              width: 1
-            },
-            move: {
-              enable: true,
-              speed: 1,
-              direction: "none",
-              random: true,
-              out_mode: "out"
-            }
-          },
-          interactivity: {
-            detect_on: "canvas",
-            events: {
-              onhover: { enable: true, mode: "repulse" },
-              onclick: { enable: true, mode: "push" }
-            }
-          }
-        });
-      } else {
-        // particles.js가 로드되지 않았을 때 대체 시각적 효과
-        createFallbackParticles(particleContainer);
-      }
-    } catch (error) {
-      console.log("Error initializing particles:", error);
-      // 오류 발생 시 대체 효과
-      createFallbackParticles(particleContainer);
-    }
-  });
-  
-  // particles.js가 없을 때 대체 배경 효과 생성
-  function createFallbackParticles(container) {
-    if (!container) return;
-    
     // 기존 내용 지우기
-    container.innerHTML = '';
-    container.style.position = 'absolute';
-    container.style.top = '0';
-    container.style.left = '0';
-    container.style.width = '100%';
-    container.style.height = '100%';
-    container.style.overflow = 'hidden';
+    particleContainer.innerHTML = '';
+    particleContainer.style.position = 'absolute';
+    particleContainer.style.top = '0';
+    particleContainer.style.left = '0';
+    particleContainer.style.width = '100%';
+    particleContainer.style.height = '100%';
+    particleContainer.style.overflow = 'hidden';
     
-    // 20개의 가상 입자 생성
-    for (let i = 0; i < 20; i++) {
-      const dot = document.createElement('div');
-      const size = Math.random() * 5 + 2;
+    // 캔버스 생성
+    const canvas = document.createElement('canvas');
+    canvas.width = particleContainer.offsetWidth;
+    canvas.height = particleContainer.offsetHeight;
+    canvas.style.display = 'block';
+    particleContainer.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    
+    // 파티클 설정
+    const particlesArray = [];
+    const numberOfParticles = 100;
+    const colors = ['#ff3e9d', '#9d00ff', '#ff3e9d50', '#9d00ff50'];
+    
+    // 캔버스 크기 조정 함수
+    function resizeCanvas() {
+      canvas.width = particleContainer.offsetWidth;
+      canvas.height = particleContainer.offsetHeight;
       
-      dot.style.position = 'absolute';
-      dot.style.width = `${size}px`;
-      dot.style.height = `${size}px`;
-      dot.style.borderRadius = '50%';
-      dot.style.opacity = Math.random() * 0.5 + 0.2;
-      
-      // 랜덤 색상 (핑크 또는 보라색)
-      const colors = ['#ff3e9d', '#9d00ff'];
-      dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-      
-      // 랜덤 위치
-      dot.style.left = `${Math.random() * 100}%`;
-      dot.style.top = `${Math.random() * 100}%`;
-      
-      // 애니메이션
-      dot.style.animation = `floatParticle ${Math.random() * 10 + 10}s linear infinite`;
-      
-      container.appendChild(dot);
+      // 파티클 재생성
+      particlesArray.length = 0;
+      init();
     }
     
-    // CSS 애니메이션 추가
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes floatParticle {
-        0% { transform: translate(0, 0); }
-        25% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
-        50% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
-        75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
-        100% { transform: translate(0, 0); }
+    // 파티클 클래스
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 3 + 1;
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+        this.speedX = Math.random() * 0.5 - 0.25;
+        this.speedY = Math.random() * 0.5 - 0.25;
+        this.linkedWith = [];
       }
-    `;
-    document.head.appendChild(style);
-  }
+      
+      // 움직임 업데이트
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        
+        // 화면 경계에서 반대로 이동
+        if (this.x > canvas.width || this.x < 0) {
+          this.speedX = -this.speedX;
+        }
+        
+        if (this.y > canvas.height || this.y < 0) {
+          this.speedY = -this.speedY;
+        }
+      }
+      
+      // 파티클 그리기
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+      }
+      
+      // 다른 파티클과의 연결선 그리기
+      drawLinks() {
+        this.linkedWith = [];
+        
+        for (let i = 0; i < particlesArray.length; i++) {
+          const dx = this.x - particlesArray[i].x;
+          const dy = this.y - particlesArray[i].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 100) {
+            this.linkedWith.push(i);
+            
+            ctx.beginPath();
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(particlesArray[i].x, particlesArray[i].y);
+            ctx.strokeStyle = `rgba(157, 0, 255, ${0.2 * (1 - distance / 100)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    
+    // 파티클 초기화
+    function init() {
+      for (let i = 0; i < numberOfParticles; i++) {
+        particlesArray.push(new Particle());
+      }
+    }
+    
+    // 애니메이션
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].update();
+        particlesArray[i].draw();
+      }
+      
+      for (let i = 0; i < particlesArray.length; i++) {
+        particlesArray[i].drawLinks();
+      }
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // 마우스 상호작용
+    let mouse = {
+      x: undefined,
+      y: undefined,
+      radius: 100
+    };
+    
+    canvas.addEventListener('mousemove', function(event) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = event.clientX - rect.left;
+      mouse.y = event.clientY - rect.top;
+    });
+    
+    canvas.addEventListener('mouseout', function() {
+      mouse.x = undefined;
+      mouse.y = undefined;
+    });
+    
+    // 창 크기 변경 시 캔버스 조정
+    window.addEventListener('resize', resizeCanvas);
+    
+    // 초기화 및 애니메이션 시작
+    init();
+    animate();
+  });
 </script>
