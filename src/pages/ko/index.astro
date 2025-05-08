@@ -2,6 +2,15 @@
 // src/pages/ko/index.astro
 import Layout from '../../layouts/Layout.astro';
 import HeroSection from '../../components/HeroSection.astro';
+import ServiceOverview from '../../components/ServiceOverview.astro';
+import ProductTech from '../../components/ProductTech.astro';
+import Contents from '../../components/Contents.astro';
+import MarketVision from '../../components/MarketVision.astro';
+import Partners from '../../components/Partners.astro';
+import RevenueModel from '../../components/RevenueModel.astro';
+import Investment from '../../components/Investment.astro';
+import Team from '../../components/Team.astro';
+import Footer from '../../components/Footer.astro';
 
 // 언어 설정
 const lang = 'ko';
@@ -9,24 +18,13 @@ const lang = 'ko';
 
 <Layout lang={lang}>
   <HeroSection lang={lang} />
-  
-  <!-- 여기에 기본 페이지 구조 추가 -->
-  <div class="temp-content">
-    <div class="container">
-      <div class="text-center">
-        <h2 class="mb-4">한국어 페이지</h2>
-        <p>이곳에 섹션 컴포넌트들이 추가될 예정입니다.</p>
-      </div>
-    </div>
-  </div>
+  <ServiceOverview lang={lang} />
+  <ProductTech lang={lang} />
+  <Contents lang={lang} />
+  <MarketVision lang={lang} />
+  <Partners lang={lang} />
+  <RevenueModel lang={lang} />
+  <Investment lang={lang} />
+  <Team lang={lang} />
+  <Footer lang={lang} />
 </Layout>
-
-<style>
-  .temp-content {
-    padding: 5rem 0;
-    min-height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-</style>

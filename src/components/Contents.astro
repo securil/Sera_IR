@@ -1,0 +1,510 @@
+---
+// src/components/Contents.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "어떤 콘텐츠를 제공하나요?",
+    description: "세라는 다양한 장르의 콘텐츠를 제공하며, 사용자가 직접 참여할 수 있는 커뮤니티 기능을 지원합니다.",
+    liveTab: "라이브 방송",
+    vodTab: "VOD 콘텐츠",
+    communityTab: "커뮤니티",
+    liveDescription: "인기 BJ들의 실시간 방송을 META TOY와 함께 즐겨보세요. 실시간 상호작용과 즉각적인 피드백이 가능합니다.",
+    vodDescription: "다양한 장르의 VOD 콘텐츠를 META TOY와 함께 언제든지 즐길 수 있습니다. 프리미엄 콘텐츠를 통해 더욱 특별한 경험을 만나보세요.",
+    communityDescription: "팬들과 소통하고, 콘텐츠 제작자들과 교류할 수 있는 커뮤니티 공간을 제공합니다. 후원 시스템을 통해 좋아하는 제작자를 지원할 수 있습니다.",
+    creator1: "인기 BJ 사라",
+    creator2: "라이브 스타 제이",
+    creator3: "혜성같이 등장한 신예 미나",
+    tag1: "인기",
+    tag2: "실시간",
+    tag3: "추천",
+    viewAll: "전체보기"
+  },
+  en: {
+    title: "What content do we provide?",
+    description: "SERA offers a variety of content genres and supports community features that allow users to participate directly.",
+    liveTab: "Live Broadcast",
+    vodTab: "VOD Content",
+    communityTab: "Community",
+    liveDescription: "Enjoy real-time broadcasts from popular BJs with META TOY. Real-time interaction and immediate feedback are possible.",
+    vodDescription: "Enjoy various genres of VOD content with META TOY anytime. Experience special moments through premium content.",
+    communityDescription: "Provides a community space to communicate with fans and interact with content creators. Support your favorite creators through the donation system.",
+    creator1: "Popular BJ Sarah",
+    creator2: "Live Star Jay",
+    creator3: "Rising Star Mina",
+    tag1: "Popular",
+    tag2: "Live",
+    tag3: "Recommended",
+    viewAll: "View All"
+  },
+  zh: {
+    title: "我们提供什么内容？",
+    description: "SERA提供各种类型的内容，并支持用户直接参与的社区功能。",
+    liveTab: "直播广播",
+    vodTab: "点播内容",
+    communityTab: "社区",
+    liveDescription: "与META TOY一起享受来自热门BJ的实时广播。可以进行实时互动和即时反馈。",
+    vodDescription: "随时与META TOY一起享受各种类型的点播内容。通过优质内容体验特别时刻。",
+    communityDescription: "提供一个与粉丝交流和与内容创作者互动的社区空间。通过捐赠系统支持您喜爱的创作者。",
+    creator1: "人气BJ莎拉",
+    creator2: "直播明星杰伊",
+    creator3: "新星米娜",
+    tag1: "热门",
+    tag2: "直播",
+    tag3: "推荐",
+    viewAll: "查看全部"
+  },
+  ja: {
+    title: "どのようなコンテンツを提供していますか？",
+    description: "SERAは様々なジャンルのコンテンツを提供し、ユーザーが直接参加できるコミュニティ機能をサポートしています。",
+    liveTab: "ライブ放送",
+    vodTab: "VODコンテンツ",
+    communityTab: "コミュニティ",
+    liveDescription: "人気BJのリアルタイム放送をMETA TOYと一緒にお楽しみください。リアルタイムの相互作用と即時フィードバックが可能です。",
+    vodDescription: "様々なジャンルのVODコンテンツをMETA TOYと一緒にいつでもお楽しみいただけます。プレミアムコンテンツで特別な体験を。",
+    communityDescription: "ファンとコミュニケーションを取り、コンテンツ制作者と交流できるコミュニティスペースを提供します。寄付システムを通じてお気に入りの制作者を支援できます。",
+    creator1: "人気BJ サラ",
+    creator2: "ライブスター ジェイ",
+    creator3: "新星 ミナ",
+    tag1: "人気",
+    tag2: "ライブ",
+    tag3: "おすすめ",
+    viewAll: "すべて見る"
+  }
+};
+
+// 콘텐츠 데이터 - 실제로는 DB에서 가져올 것
+const contents = {
+  live: [
+    { id: 1, title: texts[lang].creator1, views: 1200, tags: [texts[lang].tag1, texts[lang].tag2] },
+    { id: 2, title: texts[lang].creator2, views: 850, tags: [texts[lang].tag2] },
+    { id: 3, title: texts[lang].creator3, views: 620, tags: [texts[lang].tag3, texts[lang].tag1] }
+  ],
+  vod: [
+    { id: 4, title: "VOD 1", views: 5600, tags: [texts[lang].tag1, texts[lang].tag3] },
+    { id: 5, title: "VOD 2", views: 2300, tags: [texts[lang].tag3] },
+    { id: 6, title: "VOD 3", views: 1800, tags: [texts[lang].tag1] }
+  ],
+  community: [
+    { id: 7, title: "Community 1", comments: 32, likes: 128 },
+    { id: 8, title: "Community 2", comments: 16, likes: 94 },
+    { id: 9, title: "Community 3", comments: 8, likes: 47 }
+  ]
+};
+---
+
+<section id="content" class="section contents">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="content-tabs">
+      <div class="tabs">
+        <button class="tab-button active" data-tab="live">
+          <i class="fas fa-video"></i> {texts[lang].liveTab}
+        </button>
+        <button class="tab-button" data-tab="vod">
+          <i class="fas fa-film"></i> {texts[lang].vodTab}
+        </button>
+        <button class="tab-button" data-tab="community">
+          <i class="fas fa-users"></i> {texts[lang].communityTab}
+        </button>
+      </div>
+      
+      <div class="tab-content">
+        <div class="tab-pane active" id="live">
+          <div class="tab-description fade-in">
+            <p>{texts[lang].liveDescription}</p>
+          </div>
+          
+          <div class="content-grid">
+            {contents.live.map((item) => (
+              <div class="content-card fade-in">
+                <div class="content-thumbnail">
+                  <div class="live-badge">LIVE</div>
+                  <div class="content-overlay">
+                    <div class="overlay-icon">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-info">
+                  <h3>{item.title}</h3>
+                  <div class="content-meta">
+                    <span><i class="fas fa-eye"></i> {item.views}</span>
+                  </div>
+                  <div class="content-tags">
+                    {item.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div class="view-more text-center mt-4">
+            <a href="#" class="btn btn-outline">
+              {texts[lang].viewAll}
+            </a>
+          </div>
+        </div>
+        
+        <div class="tab-pane" id="vod">
+          <div class="tab-description fade-in">
+            <p>{texts[lang].vodDescription}</p>
+          </div>
+          
+          <div class="content-grid">
+            {contents.vod.map((item) => (
+              <div class="content-card fade-in">
+                <div class="content-thumbnail">
+                  <div class="content-overlay">
+                    <div class="overlay-icon">
+                      <i class="fas fa-play"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="content-info">
+                  <h3>{item.title}</h3>
+                  <div class="content-meta">
+                    <span><i class="fas fa-eye"></i> {item.views}</span>
+                  </div>
+                  <div class="content-tags">
+                    {item.tags.map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div class="view-more text-center mt-4">
+            <a href="#" class="btn btn-outline">
+              {texts[lang].viewAll}
+            </a>
+          </div>
+        </div>
+        
+        <div class="tab-pane" id="community">
+          <div class="tab-description fade-in">
+            <p>{texts[lang].communityDescription}</p>
+          </div>
+          
+          <div class="community-list">
+            {contents.community.map((item) => (
+              <div class="community-item fade-in">
+                <h3>{item.title}</h3>
+                <div class="community-meta">
+                  <span><i class="fas fa-comment"></i> {item.comments}</span>
+                  <span><i class="fas fa-heart"></i> {item.likes}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div class="view-more text-center mt-4">
+            <a href="#" class="btn btn-outline">
+              {texts[lang].viewAll}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contents {
+    position: relative;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.95), var(--color-background));
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .content-tabs {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .tab-button {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tab-button::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+  }
+  
+  .tab-button:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .tab-button.active {
+    color: var(--color-primary);
+  }
+  
+  .tab-button.active::after {
+    width: 100%;
+  }
+  
+  .tab-button i {
+    margin-right: 0.5rem;
+  }
+  
+  .tab-content {
+    padding: 2rem;
+  }
+  
+  .tab-pane {
+    display: none;
+  }
+  
+  .tab-pane.active {
+    display: block;
+  }
+  
+  .tab-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+  
+  .content-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .content-thumbnail {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: rgba(0, 0, 0, 0.3);
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232e2e2e" /></svg>');
+    background-size: cover;
+  }
+  
+  .live-badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: var(--color-primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+  }
+  
+  .content-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .content-card:hover .content-overlay {
+    opacity: 1;
+  }
+  
+  .overlay-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .overlay-icon i {
+    color: white;
+    font-size: 1.2rem;
+  }
+  
+  .content-card:hover .overlay-icon {
+    transform: scale(1.1);
+  }
+  
+  .content-info {
+    padding: 1.5rem;
+  }
+  
+  .content-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .content-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .content-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .tag {
+    background: rgba(255, 62, 157, 0.15);
+    color: var(--color-primary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+  }
+  
+  .community-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .community-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .community-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .community-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .content-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .tabs {
+      flex-direction: column;
+    }
+    
+    .tab-button {
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .tab-content {
+      padding: 1.5rem;
+    }
+    
+    .community-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        // 모든 탭 버튼 비활성화
+        tabButtons.forEach(btn => {
+          btn.classList.remove('active');
+        });
+        
+        // 모든 탭 패널 숨기기
+        tabPanes.forEach(pane => {
+          pane.classList.remove('active');
+        });
+        
+        // 클릭한 버튼 활성화
+        this.classList.add('active');
+        
+        // 해당 패널 표시
+        const tabId = this.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+  });
+</script>

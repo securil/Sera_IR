@@ -1,0 +1,893 @@
+---
+// src/components/Investment.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "우리는 함께할 파트너를 찾고 있습니다",
+    description: "세라는 성인 콘텐츠의 미래를 함께 만들어갈 투자자 및 파트너를 찾고 있습니다.",
+    fundingRounds: "투자 라운드",
+    seed: "시드",
+    seriesA: "시리즈 A",
+    seriesB: "시리즈 B",
+    status: "상태",
+    amount: "금액",
+    date: "일자",
+    complete: "완료",
+    inProgress: "진행 중",
+    planned: "계획",
+    fundUse: "자금 활용 계획",
+    useDescription: "조달된 자금은 다음과 같이 활용될 예정입니다:",
+    rd: "R&D 및 기술 개발",
+    marketing: "마케팅 및 사용자 확보",
+    content: "콘텐츠 확보 및 제작",
+    operation: "운영 및 인프라",
+    global: "글로벌 확장",
+    roadmap: "로드맵",
+    q1: "Q1",
+    q2: "Q2",
+    q3: "Q3",
+    q4: "Q4",
+    current: "현재",
+    milestone1: "베타 서비스 론칭",
+    milestone2: "하드웨어 파트너십 확대",
+    milestone3: "정식 서비스 출시",
+    milestone4: "시리즈 A 투자 유치",
+    milestone5: "일본 시장 진출",
+    milestone6: "콘텐츠 제작 스튜디오 설립",
+    milestone7: "글로벌 확장 시작",
+    milestone8: "시리즈 B 투자 유치",
+    investmentOpportunity: "투자 기회",
+    opportunityText: "세라에 투자함으로써 다음과 같은 기회를 얻을 수 있습니다:",
+    opportunityPoint1: "빠르게 성장하는 실감형 성인 콘텐츠 시장 선점",
+    opportunityPoint2: "독보적인 기술력과 IP를 보유한 플랫폼 비즈니스",
+    opportunityPoint3: "글로벌 확장 가능성이 높은 스케일러블 비즈니스 모델",
+    opportunityPoint4: "안정적인 수익 창출 구조와 높은 마진율",
+    contactUs: "투자 문의",
+    contactText: "투자 관련 문의는 아래로 연락주시기 바랍니다:",
+    email: "이메일",
+    phone: "전화",
+    meeting: "미팅 요청하기"
+  },
+  en: {
+    title: "We are looking for partners to join us",
+    description: "SERA is seeking investors and partners to create the future of adult content together.",
+    fundingRounds: "Funding Rounds",
+    seed: "Seed",
+    seriesA: "Series A",
+    seriesB: "Series B",
+    status: "Status",
+    amount: "Amount",
+    date: "Date",
+    complete: "Complete",
+    inProgress: "In Progress",
+    planned: "Planned",
+    fundUse: "Fund Utilization Plan",
+    useDescription: "The raised funds will be utilized as follows:",
+    rd: "R&D and Technology Development",
+    marketing: "Marketing and User Acquisition",
+    content: "Content Acquisition and Production",
+    operation: "Operations and Infrastructure",
+    global: "Global Expansion",
+    roadmap: "Roadmap",
+    q1: "Q1",
+    q2: "Q2",
+    q3: "Q3",
+    q4: "Q4",
+    current: "Current",
+    milestone1: "Beta Service Launch",
+    milestone2: "Hardware Partnership Expansion",
+    milestone3: "Official Service Launch",
+    milestone4: "Series A Funding",
+    milestone5: "Entry into Japanese Market",
+    milestone6: "Content Production Studio Establishment",
+    milestone7: "Global Expansion Start",
+    milestone8: "Series B Funding",
+    investmentOpportunity: "Investment Opportunity",
+    opportunityText: "By investing in SERA, you can gain the following opportunities:",
+    opportunityPoint1: "First-mover advantage in the rapidly growing immersive adult content market",
+    opportunityPoint2: "Platform business with unique technology and IP",
+    opportunityPoint3: "Scalable business model with high global expansion potential",
+    opportunityPoint4: "Stable revenue generation structure with high margins",
+    contactUs: "Investment Inquiry",
+    contactText: "For investment-related inquiries, please contact us at:",
+    email: "Email",
+    phone: "Phone",
+    meeting: "Request a Meeting"
+  },
+  zh: {
+    title: "我们正在寻找合作伙伴",
+    description: "SERA正在寻找投资者和合作伙伴，共同创造成人内容的未来。",
+    fundingRounds: "融资轮次",
+    seed: "种子轮",
+    seriesA: "A轮",
+    seriesB: "B轮",
+    status: "状态",
+    amount: "金额",
+    date: "日期",
+    complete: "完成",
+    inProgress: "进行中",
+    planned: "计划",
+    fundUse: "资金使用计划",
+    useDescription: "筹集的资金将用于以下方面：",
+    rd: "研发和技术开发",
+    marketing: "营销和用户获取",
+    content: "内容获取和制作",
+    operation: "运营和基础设施",
+    global: "全球扩张",
+    roadmap: "路线图",
+    q1: "第一季度",
+    q2: "第二季度",
+    q3: "第三季度",
+    q4: "第四季度",
+    current: "当前",
+    milestone1: "测试服务发布",
+    milestone2: "硬件合作伙伴扩展",
+    milestone3: "正式服务发布",
+    milestone4: "A轮融资",
+    milestone5: "进入日本市场",
+    milestone6: "内容制作工作室建立",
+    milestone7: "全球扩张开始",
+    milestone8: "B轮融资",
+    investmentOpportunity: "投资机会",
+    opportunityText: "通过投资SERA，您可以获得以下机会：",
+    opportunityPoint1: "在快速增长的沉浸式成人内容市场中占据先发优势",
+    opportunityPoint2: "拥有独特技术和知识产权的平台业务",
+    opportunityPoint3: "具有高全球扩张潜力的可扩展业务模式",
+    opportunityPoint4: "稳定的收入产生结构和高利润率",
+    contactUs: "投资咨询",
+    contactText: "如有投资相关咨询，请联系我们：",
+    email: "电子邮件",
+    phone: "电话",
+    meeting: "请求会议"
+  },
+  ja: {
+    title: "私たちは共に歩むパートナーを探しています",
+    description: "SERAはアダルトコンテンツの未来を共に創造する投資家やパートナーを探しています。",
+    fundingRounds: "資金調達ラウンド",
+    seed: "シード",
+    seriesA: "シリーズA",
+    seriesB: "シリーズB",
+    status: "状態",
+    amount: "金額",
+    date: "日付",
+    complete: "完了",
+    inProgress: "進行中",
+    planned: "計画",
+    fundUse: "資金活用計画",
+    useDescription: "調達した資金は次のように活用される予定です：",
+    rd: "R&Dおよび技術開発",
+    marketing: "マーケティングおよびユーザー獲得",
+    content: "コンテンツ調達および制作",
+    operation: "運営およびインフラ",
+    global: "グローバル展開",
+    roadmap: "ロードマップ",
+    q1: "第1四半期",
+    q2: "第2四半期",
+    q3: "第3四半期",
+    q4: "第4四半期",
+    current: "現在",
+    milestone1: "ベータサービス開始",
+    milestone2: "ハードウェアパートナーシップ拡大",
+    milestone3: "正式サービス開始",
+    milestone4: "シリーズA資金調達",
+    milestone5: "日本市場参入",
+    milestone6: "コンテンツ制作スタジオ設立",
+    milestone7: "グローバル展開開始",
+    milestone8: "シリーズB資金調達",
+    investmentOpportunity: "投資機会",
+    opportunityText: "SERAに投資することで、次のような機会を得ることができます：",
+    opportunityPoint1: "急成長している没入型アダルトコンテンツ市場でのファーストムーバーアドバンテージ",
+    opportunityPoint2: "独自の技術とIPを持つプラットフォームビジネス",
+    opportunityPoint3: "高いグローバル展開可能性を持つスケーラブルなビジネスモデル",
+    opportunityPoint4: "安定した収益創出構造と高いマージン率",
+    contactUs: "投資に関するお問い合わせ",
+    contactText: "投資に関するお問い合わせは、以下までご連絡ください：",
+    email: "Eメール",
+    phone: "電話",
+    meeting: "ミーティングをリクエスト"
+  }
+};
+
+// 투자 라운드 데이터
+const fundingRounds = [
+  {
+    round: texts[lang].seed,
+    status: texts[lang].complete,
+    amount: "$500K",
+    date: "2023 Q3"
+  },
+  {
+    round: texts[lang].seriesA,
+    status: texts[lang].inProgress,
+    amount: "$3M",
+    date: "2024 Q2"
+  },
+  {
+    round: texts[lang].seriesB,
+    status: texts[lang].planned,
+    amount: "$10M",
+    date: "2025 Q1"
+  }
+];
+
+// 자금 활용 계획 데이터
+const fundUsage = [
+  { category: texts[lang].rd, percentage: 35 },
+  { category: texts[lang].marketing, percentage: 25 },
+  { category: texts[lang].content, percentage: 20 },
+  { category: texts[lang].operation, percentage: 15 },
+  { category: texts[lang].global, percentage: 5 }
+];
+
+// 로드맵 데이터
+const roadmap = [
+  { quarter: "2023 " + texts[lang].q3, milestone: texts[lang].milestone1 },
+  { quarter: "2023 " + texts[lang].q4, milestone: texts[lang].milestone2 },
+  { quarter: "2024 " + texts[lang].q1, milestone: texts[lang].milestone3 },
+  { quarter: "2024 " + texts[lang].q2, milestone: texts[lang].milestone4, current: true },
+  { quarter: "2024 " + texts[lang].q3, milestone: texts[lang].milestone5 },
+  { quarter: "2024 " + texts[lang].q4, milestone: texts[lang].milestone6 },
+  { quarter: "2025 " + texts[lang].q1, milestone: texts[lang].milestone7 },
+  { quarter: "2025 " + texts[lang].q2, milestone: texts[lang].milestone8 }
+];
+---
+
+<section id="investment" class="section investment">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="funding-rounds fade-in">
+      <h3 class="content-title">{texts[lang].fundingRounds}</h3>
+      
+      <div class="rounds-table">
+        <div class="table-row table-header">
+          <div class="table-cell">{texts[lang].seed}</div>
+          <div class="table-cell">{texts[lang].status}</div>
+          <div class="table-cell">{texts[lang].amount}</div>
+          <div class="table-cell">{texts[lang].date}</div>
+        </div>
+        
+        {fundingRounds.map((round) => (
+          <div class="table-row">
+            <div class="table-cell">{round.round}</div>
+            <div class="table-cell">
+              <span class={`status-badge ${round.status === texts[lang].complete ? 'complete' : round.status === texts[lang].inProgress ? 'in-progress' : 'planned'}`}>
+                {round.status}
+              </span>
+            </div>
+            <div class="table-cell">{round.amount}</div>
+            <div class="table-cell">{round.date}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="fund-usage-container fade-in">
+      <h3 class="content-title">{texts[lang].fundUse}</h3>
+      
+      <p class="usage-description">{texts[lang].useDescription}</p>
+      
+      <div class="fund-usage">
+        <div class="usage-chart">
+          <div class="chart-container">
+            <canvas id="fundUsageChart" width="300" height="300"></canvas>
+          </div>
+          
+          <div class="chart-legend">
+            {fundUsage.map((item, index) => (
+              <div class="legend-item">
+                <div class="legend-color" style={`background-color: var(--color-${index + 1});`}></div>
+                <div class="legend-text">{item.category} ({item.percentage}%)</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div class="usage-bars">
+          {fundUsage.map((item, index) => (
+            <div class="usage-bar-item">
+              <div class="usage-label">{item.category}</div>
+              <div class="usage-bar-container">
+                <div class="usage-bar" style={`width: ${item.percentage}%; background: var(--color-${index + 1});`}></div>
+                <div class="usage-percentage">{item.percentage}%</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    <div class="roadmap-container fade-in">
+      <h3 class="content-title">{texts[lang].roadmap}</h3>
+      
+      <div class="roadmap-timeline">
+        {roadmap.map((item, index) => (
+          <div class={`timeline-item ${item.current ? 'current' : ''}`}>
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-quarter">{item.quarter}</div>
+              <div class="timeline-milestone">{item.milestone}</div>
+              {item.current && <div class="current-marker">{texts[lang].current}</div>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="investment-opportunity fade-in">
+      <h3 class="content-title">{texts[lang].investmentOpportunity}</h3>
+      
+      <p class="opportunity-text">{texts[lang].opportunityText}</p>
+      
+      <div class="opportunity-points">
+        <div class="opportunity-point">
+          <div class="point-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="point-text">{texts[lang].opportunityPoint1}</div>
+        </div>
+        
+        <div class="opportunity-point">
+          <div class="point-icon">
+            <i class="fas fa-microchip"></i>
+          </div>
+          <div class="point-text">{texts[lang].opportunityPoint2}</div>
+        </div>
+        
+        <div class="opportunity-point">
+          <div class="point-icon">
+            <i class="fas fa-globe"></i>
+          </div>
+          <div class="point-text">{texts[lang].opportunityPoint3}</div>
+        </div>
+        
+        <div class="opportunity-point">
+          <div class="point-icon">
+            <i class="fas fa-coins"></i>
+          </div>
+          <div class="point-text">{texts[lang].opportunityPoint4}</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-section fade-in">
+      <h3 class="content-title">{texts[lang].contactUs}</h3>
+      
+      <p class="contact-text">{texts[lang].contactText}</p>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-label">{texts[lang].email}</div>
+            <div class="contact-value">investment@sera.com</div>
+          </div>
+        </div>
+        
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone-alt"></i>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-label">{texts[lang].phone}</div>
+            <div class="contact-value">+82-2-123-4567</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="contact-cta">
+        <a href="#contact" class="btn btn-primary">
+          {texts[lang].meeting}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .investment {
+    position: relative;
+    background: linear-gradient(180deg, var(--color-background), rgba(18, 18, 18, 0.95));
+    overflow: hidden;
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .content-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  /* 투자 라운드 테이블 */
+  .funding-rounds {
+    margin-bottom: 5rem;
+  }
+  
+  .rounds-table {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  
+  .table-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-header {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-cell {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .status-badge.complete {
+    background: rgba(39, 174, 96, 0.2);
+    color: #27ae60;
+  }
+  
+  .status-badge.in-progress {
+    background: rgba(255, 184, 0, 0.2);
+    color: #ffb800;
+  }
+  
+  .status-badge.planned {
+    background: rgba(41, 128, 185, 0.2);
+    color: #2980b9;
+  }
+  
+  /* 자금 활용 계획 */
+  .fund-usage-container {
+    margin-bottom: 5rem;
+  }
+  
+  .usage-description {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .fund-usage {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+  
+  .usage-chart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .chart-container {
+    width: 300px;
+    height: 300px;
+    margin-bottom: 2rem;
+  }
+  
+  .chart-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+  }
+  
+  .legend-text {
+    font-size: 0.9rem;
+  }
+  
+  .usage-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .usage-bar-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .usage-label {
+    font-weight: 500;
+  }
+  
+  .usage-bar-container {
+    position: relative;
+    height: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .usage-bar {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1s ease;
+  }
+  
+  .usage-percentage {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-weight: 600;
+    color: white;
+  }
+  
+  /* 로드맵 */
+  .roadmap-container {
+    margin-bottom: 5rem;
+  }
+  
+  .roadmap-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .roadmap-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 7px;
+    width: 2px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  
+  .timeline-item {
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    top: 8px;
+    left: -2rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-border);
+    z-index: 1;
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .timeline-item.current .timeline-dot {
+    background: var(--gradient-primary);
+    transform: scale(1.2);
+  }
+  
+  .timeline-content {
+    padding: 1.5rem;
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+  }
+  
+  .timeline-item:hover .timeline-content {
+    transform: translateX(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  .timeline-quarter {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+  }
+  
+  .timeline-milestone {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .current-marker {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 62, 157, 0.15);
+    color: var(--color-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  /* 투자 기회 */
+  .investment-opportunity {
+    margin-bottom: 5rem;
+  }
+  
+  .opportunity-text {
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .opportunity-points {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .opportunity-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .opportunity-point:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .point-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .point-icon i {
+    font-size: 1.3rem;
+    color: white;
+  }
+  
+  .point-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  /* 연락처 섹션 */
+  .contact-section {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+  }
+  
+  .contact-text {
+    margin-bottom: 2.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .contact-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .contact-icon i {
+    font-size: 1.3rem;
+    color: white;
+  }
+  
+  .contact-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+  }
+  
+  .contact-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .contact-cta {
+    margin-top: 1.5rem;
+  }
+  
+  /* 색상 변수 */
+  :root {
+    --color-1: #ff3e9d;
+    --color-2: #9d00ff;
+    --color-3: #7000ff;
+    --color-4: #ff00a0;
+    --color-5: #c400ff;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .fund-usage {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    .opportunity-points {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .contact-info {
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .table-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .table-cell {
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.8rem 1rem;
+    }
+    
+    .table-cell:last-child {
+      border-bottom: none;
+    }
+    
+    .table-header {
+      display: none;
+    }
+    
+    .table-cell:before {
+      content: attr(data-label);
+      font-weight: 600;
+      margin-right: 1rem;
+      display: inline-block;
+      min-width: 120px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 모바일 뷰에서 데이터 레이블 추가
+    if (window.innerWidth <= 768) {
+      const headers = [
+        document.querySelector('.rounds-table .table-header .table-cell:nth-child(1)').textContent,
+        document.querySelector('.rounds-table .table-header .table-cell:nth-child(2)').textContent,
+        document.querySelector('.rounds-table .table-header .table-cell:nth-child(3)').textContent,
+        document.querySelector('.rounds-table .table-header .table-cell:nth-child(4)').textContent
+      ];
+      
+      document.querySelectorAll('.rounds-table .table-row:not(.table-header)').forEach(row => {
+        row.querySelectorAll('.table-cell').forEach((cell, index) => {
+          cell.setAttribute('data-label', headers[index]);
+        });
+      });
+    }
+    
+    // 자금 활용 파이 차트 그리기
+    const ctx = document.getElementById('fundUsageChart')?.getContext('2d');
+    if (ctx) {
+      // 데이터
+      const data = [
+        { category: "R&D 및 기술 개발", percentage: 35, color: "#ff3e9d" },
+        { category: "마케팅 및 사용자 확보", percentage: 25, color: "#9d00ff" },
+        { category: "콘텐츠 확보 및 제작", percentage: 20, color: "#7000ff" },
+        { category: "운영 및 인프라", percentage: 15, color: "#ff00a0" },
+        { category: "글로벌 확장", percentage: 5, color: "#c400ff" }
+      ];
+      
+      function drawPieChart(ctx, data) {
+        const canvas = ctx.canvas;
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = Math.min(centerX, centerY) * 0.8;
+        
+        // 합계 계산
+        const total = data.reduce((sum, item) => sum + item.percentage, 0);
+        
+        // 시작 각도
+        let startAngle = -Math.PI / 2;
+        
+        // 각 섹션 그리기
+        data.forEach(item => {
+          // 각도 계산
+          const sliceAngle = (2 * Math.PI * item.percentage) / total;
+          
+          // 섹션 그리기
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+          ctx.closePath();
+          
+          // 섹션 스타일 설정
+          ctx.fillStyle = item.color;
+          ctx.fill();
+          
+          // 다음 섹션의 시작 각도 업데이트
+          startAngle += sliceAngle;
+        });
+      }
+      
+      // 차트 그리기
+      drawPieChart(ctx, data);
+    }
+  });
+</script>

@@ -1,0 +1,362 @@
+---
+// src/components/ProductTech.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "META TOY란?",
+    description: "META TOY는 영상 속 움직임을 실시간으로 재현하는 혁신적인 햅틱 디바이스입니다.",
+    feature1: "실시간 동기화",
+    feature1Desc: "영상 속 움직임을 실시간으로 재현합니다",
+    feature2: "무선 연결",
+    feature2Desc: "블루투스 기술로 간편한 무선 연결 지원",
+    feature3: "모바일 지원",
+    feature3Desc: "iOS 및 Android 앱을 통해 어디서나 사용 가능",
+    specs: "주요 사양",
+    tech1: "진동/모션 센서",
+    tech2: "초저지연 블루투스 연결",
+    tech3: "최대 2시간 지속 배터리",
+    tech4: "인체공학적 디자인",
+    moreButton: "더 알아보기"
+  },
+  en: {
+    title: "What is META TOY?",
+    description: "META TOY is an innovative haptic device that replicates the movements in videos in real-time.",
+    feature1: "Real-time Synchronization",
+    feature1Desc: "Recreates movements from video in real-time",
+    feature2: "Wireless Connection",
+    feature2Desc: "Easy wireless connection via Bluetooth technology",
+    feature3: "Mobile Support",
+    feature3Desc: "Available anywhere through iOS and Android apps",
+    specs: "Key Specifications",
+    tech1: "Vibration/Motion Sensors",
+    tech2: "Ultra-low latency Bluetooth connection",
+    tech3: "Up to 2 hours of battery life",
+    tech4: "Ergonomic design",
+    moreButton: "Learn More"
+  },
+  zh: {
+    title: "什么是META TOY？",
+    description: "META TOY是一种创新的触觉设备，可以实时复制视频中的动作。",
+    feature1: "实时同步",
+    feature1Desc: "实时再现视频中的动作",
+    feature2: "无线连接",
+    feature2Desc: "通过蓝牙技术轻松实现无线连接",
+    feature3: "移动设备支持",
+    feature3Desc: "通过iOS和Android应用随时随地使用",
+    specs: "主要规格",
+    tech1: "振动/动作传感器",
+    tech2: "超低延迟蓝牙连接",
+    tech3: "长达2小时的电池续航",
+    tech4: "人体工程学设计",
+    moreButton: "了解更多"
+  },
+  ja: {
+    title: "META TOYとは？",
+    description: "META TOYは映像の動きをリアルタイムで再現する革新的なハプティックデバイスです。",
+    feature1: "リアルタイム同期",
+    feature1Desc: "映像の動きをリアルタイムで再現します",
+    feature2: "ワイヤレス接続",
+    feature2Desc: "Bluetooth技術による簡単なワイヤレス接続",
+    feature3: "モバイル対応",
+    feature3Desc: "iOSとAndroidアプリを通じてどこでも利用可能",
+    specs: "主な仕様",
+    tech1: "振動/モーションセンサー",
+    tech2: "超低遅延Bluetooth接続",
+    tech3: "最大2時間のバッテリー持続",
+    tech4: "人間工学に基づいたデザイン",
+    moreButton: "詳しく見る"
+  }
+};
+---
+
+<section id="product" class="section product-tech">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="product-showcase">
+      <div class="product-image">
+        <div class="product-device">
+          <!-- 제품 이미지가 들어갈 공간 -->
+          <div class="device-glow"></div>
+        </div>
+      </div>
+      
+      <div class="product-features">
+        <div class="product-feature-item fade-in">
+          <div class="feature-number">01</div>
+          <div class="feature-content">
+            <h3>{texts[lang].feature1}</h3>
+            <p>{texts[lang].feature1Desc}</p>
+          </div>
+        </div>
+        
+        <div class="product-feature-item fade-in delay-100">
+          <div class="feature-number">02</div>
+          <div class="feature-content">
+            <h3>{texts[lang].feature2}</h3>
+            <p>{texts[lang].feature2Desc}</p>
+          </div>
+        </div>
+        
+        <div class="product-feature-item fade-in delay-200">
+          <div class="feature-number">03</div>
+          <div class="feature-content">
+            <h3>{texts[lang].feature3}</h3>
+            <p>{texts[lang].feature3Desc}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="technology-specs">
+      <h3 class="text-center mb-4">{texts[lang].specs}</h3>
+      
+      <div class="tech-grid">
+        <div class="tech-item fade-in">
+          <div class="tech-icon">
+            <i class="fas fa-vibration"></i>
+          </div>
+          <h4>{texts[lang].tech1}</h4>
+        </div>
+        
+        <div class="tech-item fade-in delay-100">
+          <div class="tech-icon">
+            <i class="fab fa-bluetooth-b"></i>
+          </div>
+          <h4>{texts[lang].tech2}</h4>
+        </div>
+        
+        <div class="tech-item fade-in delay-200">
+          <div class="tech-icon">
+            <i class="fas fa-battery-three-quarters"></i>
+          </div>
+          <h4>{texts[lang].tech3}</h4>
+        </div>
+        
+        <div class="tech-item fade-in delay-300">
+          <div class="tech-icon">
+            <i class="fas fa-drafting-compass"></i>
+          </div>
+          <h4>{texts[lang].tech4}</h4>
+        </div>
+      </div>
+      
+      <div class="text-center mt-5">
+        <a href="#content" class="btn btn-primary">
+          {texts[lang].moreButton}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .product-tech {
+    position: relative;
+    background: linear-gradient(180deg, var(--color-background), rgba(18, 18, 18, 0.95));
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .product-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 5rem;
+  }
+  
+  .product-image {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .product-device {
+    width: 100%;
+    height: 400px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M30,20 L70,20 C77.732,20 84,26.268 84,34 L84,66 C84,73.732 77.732,80 70,80 L30,80 C22.268,80 16,73.732 16,66 L16,34 C16,26.268 22.268,20 30,20 Z" fill="%23333" /></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+  }
+  
+  .device-glow {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    left: -10%;
+    top: -10%;
+    background: radial-gradient(circle, rgba(255, 62, 157, 0.4) 0%, rgba(157, 0, 255, 0.2) 40%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(30px);
+    opacity: 0.8;
+    animation: pulse 3s ease-in-out infinite alternate;
+  }
+  
+  .product-features {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .product-feature-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--color-card);
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .product-feature-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .feature-number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.8;
+  }
+  
+  .feature-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .feature-content p {
+    opacity: 0.8;
+  }
+  
+  .technology-specs {
+    margin-top: 5rem;
+  }
+  
+  .technology-specs h3 {
+    font-size: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  
+  .tech-item {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-card);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .tech-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .tech-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .tech-icon i {
+    font-size: 1.8rem;
+    color: white;
+  }
+  
+  .tech-item:hover .tech-icon {
+    transform: scale(1.1);
+  }
+  
+  .tech-item h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .product-showcase {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    
+    .tech-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .product-device {
+      height: 300px;
+    }
+    
+    .product-feature-item {
+      padding: 1.2rem;
+    }
+    
+    .feature-number {
+      font-size: 1.8rem;
+    }
+    
+    .feature-content h3 {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .tech-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .tech-item {
+      padding: 1.5rem;
+    }
+  }
+</style>

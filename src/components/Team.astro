@@ -1,0 +1,753 @@
+---
+// src/components/Team.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "우리 팀을 소개합니다",
+    description: "세라를 이끌어가는 전문가들을 소개합니다.",
+    leadership: "리더십 팀",
+    development: "개발 팀",
+    content: "콘텐츠 팀",
+    ceo: "최고경영자",
+    cto: "최고기술책임자",
+    cmo: "최고마케팅책임자",
+    cfo: "최고재무책임자",
+    seniorDeveloper: "선임 개발자",
+    hardwareEngineer: "하드웨어 엔지니어",
+    uiuxDesigner: "UI/UX 디자이너",
+    contentDirector: "콘텐츠 디렉터",
+    contactInfo: "연락처 정보",
+    companyInfo: "회사 정보",
+    address: "주소",
+    email: "이메일",
+    phone: "전화",
+    businessRegNumber: "사업자 등록번호",
+    socialMedia: "소셜 미디어"
+  },
+  en: {
+    title: "Meet Our Team",
+    description: "Introducing the experts leading SERA.",
+    leadership: "Leadership Team",
+    development: "Development Team",
+    content: "Content Team",
+    ceo: "Chief Executive Officer",
+    cto: "Chief Technology Officer",
+    cmo: "Chief Marketing Officer",
+    cfo: "Chief Financial Officer",
+    seniorDeveloper: "Senior Developer",
+    hardwareEngineer: "Hardware Engineer",
+    uiuxDesigner: "UI/UX Designer",
+    contentDirector: "Content Director",
+    contactInfo: "Contact Information",
+    companyInfo: "Company Information",
+    address: "Address",
+    email: "Email",
+    phone: "Phone",
+    businessRegNumber: "Business Registration Number",
+    socialMedia: "Social Media"
+  },
+  zh: {
+    title: "认识我们的团队",
+    description: "介绍引领SERA的专家们。",
+    leadership: "领导团队",
+    development: "开发团队",
+    content: "内容团队",
+    ceo: "首席执行官",
+    cto: "首席技术官",
+    cmo: "首席营销官",
+    cfo: "首席财务官",
+    seniorDeveloper: "高级开发人员",
+    hardwareEngineer: "硬件工程师",
+    uiuxDesigner: "UI/UX设计师",
+    contentDirector: "内容总监",
+    contactInfo: "联系信息",
+    companyInfo: "公司信息",
+    address: "地址",
+    email: "电子邮件",
+    phone: "电话",
+    businessRegNumber: "营业执照号码",
+    socialMedia: "社交媒体"
+  },
+  ja: {
+    title: "私たちのチームをご紹介します",
+    description: "SERAを率いる専門家たちをご紹介します。",
+    leadership: "リーダーシップチーム",
+    development: "開発チーム",
+    content: "コンテンツチーム",
+    ceo: "最高経営責任者",
+    cto: "最高技術責任者",
+    cmo: "最高マーケティング責任者",
+    cfo: "最高財務責任者",
+    seniorDeveloper: "シニア開発者",
+    hardwareEngineer: "ハードウェアエンジニア",
+    uiuxDesigner: "UI/UXデザイナー",
+    contentDirector: "コンテンツディレクター",
+    contactInfo: "連絡先情報",
+    companyInfo: "会社情報",
+    address: "住所",
+    email: "Eメール",
+    phone: "電話",
+    businessRegNumber: "事業者登録番号",
+    socialMedia: "ソーシャルメディア"
+  }
+};
+
+// 팀 멤버 데이터
+const teamMembers = {
+  leadership: [
+    {
+      name: "김성민",
+      nameEn: "Seongmin Kim",
+      position: texts[lang].ceo,
+      bio: {
+        ko: "VR/AR 업계 15년 경력의 시리얼 창업가. 미디어 기술과 콘텐츠 분야의 전문가.",
+        en: "Serial entrepreneur with 15 years in VR/AR. Expert in media technology and content.",
+        zh: "拥有15年VR/AR行业经验的连续创业者。媒体技术和内容领域的专家。",
+        ja: "VR/AR業界15年のシリアルアントレプレナー。メディア技術とコンテンツ分野の専門家。"
+      }[lang],
+      social: {
+        linkedin: "#",
+        twitter: "#"
+      }
+    },
+    {
+      name: "박지훈",
+      nameEn: "Jihoon Park",
+      position: texts[lang].cto,
+      bio: {
+        ko: "삼성전자 출신의 하드웨어 전문가. 햅틱 기술 분야에서 다수의 특허 보유.",
+        en: "Hardware expert from Samsung Electronics. Holds multiple patents in haptic technology.",
+        zh: "来自三星电子的硬件专家。在触觉技术领域拥有多项专利。",
+        ja: "サムスン電子出身のハードウェア専門家。ハプティック技術分野で複数の特許を保有。"
+      }[lang],
+      social: {
+        linkedin: "#",
+        github: "#"
+      }
+    },
+    {
+      name: "이수진",
+      nameEn: "Sujin Lee",
+      position: texts[lang].cmo,
+      bio: {
+        ko: "엔터테인먼트 분야에서 10년 경력. 디지털 마케팅과 콘텐츠 전략 전문가.",
+        en: "10 years in entertainment. Expert in digital marketing and content strategy.",
+        zh: "在娱乐领域拥有10年经验。数字营销和内容策略专家。",
+        ja: "エンターテイメント分野で10年のキャリア。デジタルマーケティングとコンテンツ戦略の専門家。"
+      }[lang],
+      social: {
+        linkedin: "#",
+        instagram: "#"
+      }
+    },
+    {
+      name: "장민우",
+      nameEn: "Minwoo Jang",
+      position: texts[lang].cfo,
+      bio: {
+        ko: "15년 이상의 투자 및 금융 경력. 스타트업 스케일링 전략 전문가.",
+        en: "Over 15 years in investment and finance. Expert in startup scaling strategies.",
+        zh: "拥有15年以上投资和金融经验。创业公司扩展战略专家。",
+        ja: "15年以上の投資と金融のキャリア。スタートアップスケーリング戦略の専門家。"
+      }[lang],
+      social: {
+        linkedin: "#"
+      }
+    }
+  ],
+  development: [
+    {
+      name: "최다영",
+      nameEn: "Dayoung Choi",
+      position: texts[lang].seniorDeveloper,
+      bio: {
+        ko: "풀스택 개발자. AR/VR 앱 개발 경험 다수.",
+        en: "Full-stack developer. Experienced in AR/VR app development.",
+        zh: "全栈开发人员。拥有丰富的AR/VR应用开发经验。",
+        ja: "フルスタック開発者。AR/VRアプリ開発の経験多数。"
+      }[lang]
+    },
+    {
+      name: "홍태식",
+      nameEn: "Taesik Hong",
+      position: texts[lang].hardwareEngineer,
+      bio: {
+        ko: "하드웨어 엔지니어. 웨어러블 디바이스 설계 전문가.",
+        en: "Hardware engineer. Wearable device design specialist.",
+        zh: "硬件工程师。可穿戴设备设计专家。",
+        ja: "ハードウェアエンジニア。ウェアラブルデバイス設計の専門家。"
+      }[lang]
+    },
+    {
+      name: "김유진",
+      nameEn: "Yujin Kim",
+      position: texts[lang].uiuxDesigner,
+      bio: {
+        ko: "UI/UX 디자이너. 사용자 중심 디자인 전문가.",
+        en: "UI/UX designer. User-centered design specialist.",
+        zh: "UI/UX设计师。以用户为中心的设计专家。",
+        ja: "UI/UXデザイナー。ユーザー中心設計の専門家。"
+      }[lang]
+    }
+  ],
+  content: [
+    {
+      name: "정상현",
+      nameEn: "Sanghyun Jung",
+      position: texts[lang].contentDirector,
+      bio: {
+        ko: "미디어 콘텐츠 전문가. 엔터테인먼트 업계 경력 10년.",
+        en: "Media content expert. 10 years in the entertainment industry.",
+        zh: "媒体内容专家。在娱乐行业拥有10年经验。",
+        ja: "メディアコンテンツのエキスパート。エンターテイメント業界での10年の経験。"
+      }[lang]
+    }
+  ]
+};
+
+// 회사 정보
+const companyInfo = {
+  address: {
+    ko: "서울특별시 강남구 테헤란로 123, 세라타워 8층",
+    en: "8F SERA Tower, 123 Teheran-ro, Gangnam-gu, Seoul, Korea",
+    zh: "韩国首尔市江南区德黑兰路123号SERA大厦8楼",
+    ja: "ソウル特別市江南区テヘラン路123、SERAタワー8階"
+  }[lang],
+  email: "contact@sera.com",
+  phone: "+82-2-123-4567",
+  businessRegNumber: "123-45-67890",
+  social: {
+    instagram: "#",
+    facebook: "#",
+    twitter: "#",
+    linkedin: "#"
+  }
+};
+---
+
+<section id="contact" class="section team">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="team-section fade-in">
+      <h3 class="content-title">{texts[lang].leadership}</h3>
+      
+      <div class="team-grid">
+        {teamMembers.leadership.map((member) => (
+          <div class="team-card">
+            <div class="member-image">
+              <div class="image-placeholder">
+                {member.nameEn.charAt(0)}
+              </div>
+              <div class="member-social">
+                {member.social?.linkedin && (
+                  <a href={member.social.linkedin} class="social-link" aria-label="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                  </a>
+                )}
+                {member.social?.twitter && (
+                  <a href={member.social.twitter} class="social-link" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                  </a>
+                )}
+                {member.social?.github && (
+                  <a href={member.social.github} class="social-link" aria-label="GitHub">
+                    <i class="fab fa-github"></i>
+                  </a>
+                )}
+                {member.social?.instagram && (
+                  <a href={member.social.instagram} class="social-link" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                  </a>
+                )}
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">{member.name}</h4>
+              <div class="member-position">{member.position}</div>
+              <p class="member-bio">{member.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="team-section fade-in">
+      <h3 class="content-title">{texts[lang].development}</h3>
+      
+      <div class="team-grid">
+        {teamMembers.development.map((member) => (
+          <div class="team-card small">
+            <div class="member-image">
+              <div class="image-placeholder small">
+                {member.nameEn.charAt(0)}
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">{member.name}</h4>
+              <div class="member-position">{member.position}</div>
+              <p class="member-bio">{member.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="team-section fade-in">
+      <h3 class="content-title">{texts[lang].content}</h3>
+      
+      <div class="team-grid">
+        {teamMembers.content.map((member) => (
+          <div class="team-card small">
+            <div class="member-image">
+              <div class="image-placeholder small">
+                {member.nameEn.charAt(0)}
+              </div>
+            </div>
+            <div class="member-info">
+              <h4 class="member-name">{member.name}</h4>
+              <div class="member-position">{member.position}</div>
+              <p class="member-bio">{member.bio}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="contact-information fade-in">
+      <div class="contact-card">
+        <div class="contact-card-content">
+          <h3 class="contact-title">{texts[lang].contactInfo}</h3>
+          
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">{texts[lang].address}</span>
+                <span class="contact-value">{companyInfo.address}</span>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">{texts[lang].email}</span>
+                <span class="contact-value">{companyInfo.email}</span>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">{texts[lang].phone}</span>
+                <span class="contact-value">{companyInfo.phone}</span>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-building"></i>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">{texts[lang].businessRegNumber}</span>
+                <span class="contact-value">{companyInfo.businessRegNumber}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="company-social">
+            <h4 class="social-title">{texts[lang].socialMedia}</h4>
+            
+            <div class="social-links">
+              {companyInfo.social?.instagram && (
+                <a href={companyInfo.social.instagram} class="social-link" aria-label="Instagram">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              )}
+              {companyInfo.social?.facebook && (
+                <a href={companyInfo.social.facebook} class="social-link" aria-label="Facebook">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              )}
+              {companyInfo.social?.twitter && (
+                <a href={companyInfo.social.twitter} class="social-link" aria-label="Twitter">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              )}
+              {companyInfo.social?.linkedin && (
+                <a href={companyInfo.social.linkedin} class="social-link" aria-label="LinkedIn">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-card-map">
+          <div class="map-placeholder">
+            <i class="fas fa-map-marked-alt"></i>
+            <span class="map-text">Map</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="background-glow"></div>
+</section>
+
+<style>
+  .team {
+    position: relative;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.95), var(--color-background));
+    overflow: hidden;
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .content-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .team-section {
+    margin-bottom: 5rem;
+  }
+  
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+  
+  .team-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .team-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .team-card.small {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .member-image {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .image-placeholder {
+    width: 100%;
+    padding-bottom: 100%;
+    background: linear-gradient(45deg, var(--color-secondary), var(--color-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+  }
+  
+  .image-placeholder.small {
+    width: 80px;
+    height: 80px;
+    padding-bottom: 0;
+    border-radius: 50%;
+    font-size: 2rem;
+  }
+  
+  .image-placeholder::after {
+    content: attr(data-initial);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .member-social {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .team-card:hover .member-social {
+    transform: translateY(0);
+  }
+  
+  .social-link {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .social-link:hover {
+    background: white;
+    color: var(--color-primary);
+  }
+  
+  .member-info {
+    padding: 1.5rem;
+  }
+  
+  .team-card.small .member-info {
+    padding: 0;
+  }
+  
+  .member-name {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .team-card.small .member-name {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .member-position {
+    font-size: 0.9rem;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .team-card.small .member-position {
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .member-bio {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+  
+  .team-card.small .member-bio {
+    font-size: 0.85rem;
+  }
+  
+  .contact-information {
+    margin-bottom: 2rem;
+  }
+  
+  .contact-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .contact-card-content {
+    padding: 2.5rem;
+  }
+  
+  .contact-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .contact-icon i {
+    font-size: 1.2rem;
+    color: white;
+  }
+  
+  .contact-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .contact-label {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .contact-value {
+    font-size: 1.1rem;
+  }
+  
+  .company-social {
+    border-top: 1px solid var(--color-border);
+    padding-top: 2rem;
+  }
+  
+  .social-title {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-links .social-link {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+  }
+  
+  .social-links .social-link:hover {
+    transform: translateY(-5px);
+  }
+  
+  .contact-card-map {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2a2a2a;
+  }
+  
+  .map-placeholder {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .map-placeholder i {
+    font-size: 3rem;
+  }
+  
+  .map-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  .background-glow {
+    position: absolute;
+    bottom: -350px;
+    left: -350px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 62, 157, 0.15) 0%, rgba(157, 0, 255, 0.1) 30%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 1200px) {
+    .team-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .team-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contact-card {
+      grid-template-columns: 1fr;
+    }
+    
+    .contact-card-map {
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .team-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .team-card.small {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+    
+    .team-card.small .image-placeholder {
+      margin: 0 auto 1.5rem;
+    }
+  }
+</style>

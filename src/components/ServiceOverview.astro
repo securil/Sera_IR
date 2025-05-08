@@ -1,0 +1,280 @@
+---
+// src/components/ServiceOverview.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "세라는 어떤 플랫폼인가요?",
+    description: "세라는 혁신적인 사이버섹스 플랫폼으로, 실시간 영상과 햅틱 디바이스를 연동한 몰입형 경험을 제공합니다.",
+    feature1: "성인 콘텐츠 기반 사이버섹스 플랫폼",
+    feature2: "BJ Live/VOD와 햅틱 디바이스 연동",
+    feature3: "모바일·PC 지원, 블루투스 연결",
+    learnMore: "자세히 알아보기"
+  },
+  en: {
+    title: "What platform is SERA?",
+    description: "SERA is an innovative cybersex platform that provides immersive experiences through synchronized real-time video and haptic devices.",
+    feature1: "Adult content-based cybersex platform",
+    feature2: "BJ Live/VOD synchronized with haptic devices",
+    feature3: "Mobile & PC support with Bluetooth connectivity",
+    learnMore: "Learn More"
+  },
+  zh: {
+    title: "SERA是什么样的平台？",
+    description: "SERA是一个创新的网络性爱平台，通过同步实时视频和触觉设备提供沉浸式体验。",
+    feature1: "基于成人内容的网络性爱平台",
+    feature2: "与触觉设备同步的BJ直播/点播内容",
+    feature3: "支持移动设备和PC，蓝牙连接",
+    learnMore: "了解更多"
+  },
+  ja: {
+    title: "SERAはどのようなプラットフォームですか？",
+    description: "SERAは革新的なサイバーセックスプラットフォームで、リアルタイム映像とハプティックデバイスを連動させた没入型体験を提供します。",
+    feature1: "アダルトコンテンツベースのサイバーセックスプラットフォーム",
+    feature2: "BJライブ/VODとハプティックデバイスの連動",
+    feature3: "モバイル・PC対応、Bluetooth接続",
+    learnMore: "詳しく見る"
+  }
+};
+---
+
+<section id="service" class="section service-overview">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="service-features">
+      <div class="service-feature-item fade-in">
+        <div class="feature-icon">
+          <i class="fas fa-globe"></i>
+        </div>
+        <h3>{texts[lang].feature1}</h3>
+        <div class="feature-border"></div>
+      </div>
+      
+      <div class="service-feature-item fade-in delay-100">
+        <div class="feature-icon">
+          <i class="fas fa-video"></i>
+        </div>
+        <h3>{texts[lang].feature2}</h3>
+        <div class="feature-border"></div>
+      </div>
+      
+      <div class="service-feature-item fade-in delay-200">
+        <div class="feature-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h3>{texts[lang].feature3}</h3>
+        <div class="feature-border"></div>
+      </div>
+    </div>
+    
+    <div class="service-demo">
+      <div class="demo-content">
+        <h3>SERA Platform</h3>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam semper, 
+          nisl a fringilla vestibulum, velit nulla pharetra arcu, in cursus arcu est eget velit.
+        </p>
+        <a href="#product" class="btn btn-outline mt-3">
+          {texts[lang].learnMore}
+        </a>
+      </div>
+      <div class="demo-video">
+        <div class="video-placeholder">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-overview {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .service-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 5rem;
+  }
+  
+  .service-feature-item {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+  
+  .service-feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .service-feature-item:hover .feature-icon {
+    transform: scale(1.1);
+  }
+  
+  .service-feature-item:hover .feature-border {
+    width: 50%;
+  }
+  
+  .feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    transition: transform 0.5s ease;
+  }
+  
+  .feature-icon i {
+    font-size: 1.8rem;
+    color: white;
+  }
+  
+  .service-feature-item h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .feature-border {
+    width: 30%;
+    height: 3px;
+    background: var(--gradient-primary);
+    margin: 0 auto;
+    transition: width 0.5s ease;
+  }
+  
+  .service-demo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  
+  .demo-content h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .demo-content p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    opacity: 0.9;
+  }
+  
+  .demo-video {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-placeholder {
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: var(--color-card);
+    position: relative;
+    overflow: hidden;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231e1e1e" /><circle cx="50" cy="50" r="40" fill="%23333" /></svg>');
+    background-size: cover;
+    border-radius: 12px;
+  }
+  
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+  }
+  
+  .play-button i {
+    font-size: 1.5rem;
+    color: white;
+    margin-left: 5px;
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 62, 157, 0.7);
+    }
+    70% {
+      box-shadow: 0 0 0 20px rgba(255, 62, 157, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 62, 157, 0);
+    }
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .service-demo {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .demo-content {
+      order: 2;
+    }
+    
+    .demo-video {
+      order: 1;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .service-features {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .service-feature-item {
+      padding: 2rem 1.5rem;
+    }
+    
+    .section-description {
+      font-size: 1rem;
+    }
+  }
+</style>

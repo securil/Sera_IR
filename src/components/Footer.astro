@@ -1,0 +1,343 @@
+---
+// src/components/Footer.astro
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    rights: "© 2025 (주)세라. 모든 권리 보유.",
+    terms: "이용약관",
+    privacy: "개인정보처리방침",
+    contact: "연락처",
+    back: "맨 위로",
+    company: "(주)세라",
+    address: "서울특별시 강남구 테헤란로 123, 세라타워 8층",
+    phone: "+82-2-123-4567",
+    email: "contact@sera.com",
+    businessRegNumber: "사업자 등록번호: 123-45-67890"
+  },
+  en: {
+    rights: "© 2025 SERA Inc. All rights reserved.",
+    terms: "Terms of Service",
+    privacy: "Privacy Policy",
+    contact: "Contact",
+    back: "Back to Top",
+    company: "SERA Inc.",
+    address: "8F SERA Tower, 123 Teheran-ro, Gangnam-gu, Seoul, Korea",
+    phone: "+82-2-123-4567",
+    email: "contact@sera.com",
+    businessRegNumber: "Business Registration Number: 123-45-67890"
+  },
+  zh: {
+    rights: "© 2025 SERA公司。保留所有权利。",
+    terms: "使用条款",
+    privacy: "隐私政策",
+    contact: "联系我们",
+    back: "返回顶部",
+    company: "SERA公司",
+    address: "韩国首尔市江南区德黑兰路123号SERA大厦8楼",
+    phone: "+82-2-123-4567",
+    email: "contact@sera.com",
+    businessRegNumber: "营业执照号码: 123-45-67890"
+  },
+  ja: {
+    rights: "© 2025 SERA株式会社。全著作権所有。",
+    terms: "利用規約",
+    privacy: "プライバシーポリシー",
+    contact: "お問い合わせ",
+    back: "トップへ戻る",
+    company: "SERA株式会社",
+    address: "ソウル特別市江南区テヘラン路123、SERAタワー8階",
+    phone: "+82-2-123-4567",
+    email: "contact@sera.com",
+    businessRegNumber: "事業者登録番号: 123-45-67890"
+  }
+};
+
+// 언어 선택 옵션
+const languages = [
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+];
+---
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <a href={getRelativeLocaleUrl(lang, '')}>
+            <span class="text-gradient">SERA</span>
+          </a>
+          <p class="company-description">
+            {texts[lang].rights}
+          </p>
+        </div>
+        
+        <div class="footer-nav">
+          <h4>Links</h4>
+          <ul class="footer-menu">
+            <li><a href="#service">{texts[lang].terms}</a></li>
+            <li><a href="#service">{texts[lang].privacy}</a></li>
+            <li><a href="#contact">{texts[lang].contact}</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-contact">
+          <h4>{texts[lang].company}</h4>
+          <address>
+            <p><i class="fas fa-map-marker-alt"></i> {texts[lang].address}</p>
+            <p><i class="fas fa-phone-alt"></i> {texts[lang].phone}</p>
+            <p><i class="fas fa-envelope"></i> {texts[lang].email}</p>
+            <p><i class="fas fa-building"></i> {texts[lang].businessRegNumber}</p>
+          </address>
+        </div>
+        
+        <div class="footer-social">
+          <h4>Follow Us</h4>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+          </div>
+          
+          <div class="language-selector">
+            <select id="languageSelect" onchange="window.location.href=this.value">
+              {languages.map((language) => (
+                <option 
+                  value={getRelativeLocaleUrl(language.code, '')} 
+                  selected={language.code === lang}
+                >
+                  {language.flag} {language.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="footer-bottom-content">
+        <p class="copyright">
+          &copy; 2025 SERA
+        </p>
+        <a href="#" class="back-to-top">
+          {texts[lang].back} <i class="fas fa-arrow-up"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: #0a0a0a;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .footer-top {
+    padding: 5rem 0 3rem;
+  }
+  
+  .footer-content {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.5fr 1fr;
+    gap: 3rem;
+  }
+  
+  .footer-logo a {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: inline-block;
+    text-decoration: none;
+  }
+  
+  .company-description {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    max-width: 300px;
+  }
+  
+  .footer-nav h4,
+  .footer-contact h4,
+  .footer-social h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
+  
+  .footer-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .footer-menu li {
+    margin-bottom: 0.8rem;
+  }
+  
+  .footer-menu a {
+    color: var(--color-text-muted);
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .footer-menu a:hover {
+    color: var(--color-primary);
+  }
+  
+  .footer-contact address {
+    font-style: normal;
+  }
+  
+  .footer-contact p {
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .footer-contact p i {
+    margin-right: 0.75rem;
+    margin-top: 0.25rem;
+    color: var(--color-primary);
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-card);
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .social-links a:hover {
+    background: var(--gradient-primary);
+    transform: translateY(-3px);
+  }
+  
+  .language-selector select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--color-card);
+    border: none;
+    border-radius: 5px;
+    color: var(--color-text);
+    font-family: inherit;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    cursor: pointer;
+  }
+  
+  .footer-bottom {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  .footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .copyright {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin: 0;
+  }
+  
+  .back-to-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text);
+    font-weight: 500;
+    transition: color 0.3s ease;
+    text-decoration: none;
+  }
+  
+  .back-to-top:hover {
+    color: var(--color-primary);
+  }
+  
+  .back-to-top i {
+    font-size: 0.8rem;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 1200px) {
+    .footer-content {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+    }
+    
+    .footer-top {
+      padding: 3rem 0 2rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 맨 위로 버튼 기능
+    const backToTopButton = document.querySelector('.back-to-top');
+    if (backToTopButton) {
+      backToTopButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+  });
+</script>

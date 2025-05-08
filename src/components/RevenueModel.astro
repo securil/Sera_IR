@@ -1,0 +1,725 @@
+---
+// src/components/RevenueModel.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "수익은 이렇게 창출됩니다",
+    description: "세라는 다양한 수익 모델을 통해 지속 가능한 비즈니스를 구축합니다.",
+    revenueStream: "수익원",
+    proportion: "비율",
+    growth: "성장",
+    hardwareSales: "초기 기기 판매",
+    subscription: "정기 구독 수익",
+    contentSales: "콘텐츠 판매",
+    donations: "콘텐츠 후원",
+    advertising: "광고 수익",
+    businessModel: "비즈니스 모델",
+    hardware: "하드웨어",
+    content: "콘텐츠",
+    platform: "플랫폼",
+    margin: "마진율",
+    market: "시장 규모",
+    priority: "우선순위",
+    monthlyRevenue: "월 예상 수익",
+    high: "높음",
+    medium: "중간",
+    low: "낮음",
+    large: "큼",
+    moderate: "중간",
+    small: "작음",
+    stages: "운영 단계",
+    phase1: "1단계: 초기 출시",
+    phase2: "2단계: 시장 확장",
+    phase3: "3단계: 글로벌 진출",
+    phaseRevenue: "예상 수익",
+    phaseUsers: "목표 사용자",
+    phaseGoals: "목표",
+    goal1: "하드웨어 판매 및 사용자 기반 구축",
+    goal2: "콘텐츠 라이브러리 확장 및 구독 모델 강화",
+    goal3: "글로벌 시장 진출 및 콘텐츠 제휴 확대"
+  },
+  en: {
+    title: "This is how revenue is generated",
+    description: "SERA builds a sustainable business through various revenue models.",
+    revenueStream: "Revenue Stream",
+    proportion: "Proportion",
+    growth: "Growth",
+    hardwareSales: "Initial Device Sales",
+    subscription: "Subscription Revenue",
+    contentSales: "Content Sales",
+    donations: "Content Donations",
+    advertising: "Advertising Revenue",
+    businessModel: "Business Model",
+    hardware: "Hardware",
+    content: "Content",
+    platform: "Platform",
+    margin: "Margin Rate",
+    market: "Market Size",
+    priority: "Priority",
+    monthlyRevenue: "Monthly Est. Revenue",
+    high: "High",
+    medium: "Medium",
+    low: "Low",
+    large: "Large",
+    moderate: "Moderate",
+    small: "Small",
+    stages: "Operational Stages",
+    phase1: "Phase 1: Initial Launch",
+    phase2: "Phase 2: Market Expansion",
+    phase3: "Phase 3: Global Expansion",
+    phaseRevenue: "Est. Revenue",
+    phaseUsers: "Target Users",
+    phaseGoals: "Goals",
+    goal1: "Hardware sales and user base building",
+    goal2: "Content library expansion and subscription model strengthening",
+    goal3: "Global market entry and content partnership expansion"
+  },
+  zh: {
+    title: "收入是这样创造的",
+    description: "SERA通过各种收入模式建立可持续的业务。",
+    revenueStream: "收入来源",
+    proportion: "比例",
+    growth: "增长",
+    hardwareSales: "初始设备销售",
+    subscription: "订阅收入",
+    contentSales: "内容销售",
+    donations: "内容赞助",
+    advertising: "广告收入",
+    businessModel: "商业模式",
+    hardware: "硬件",
+    content: "内容",
+    platform: "平台",
+    margin: "利润率",
+    market: "市场规模",
+    priority: "优先级",
+    monthlyRevenue: "月预期收入",
+    high: "高",
+    medium: "中",
+    low: "低",
+    large: "大",
+    moderate: "中等",
+    small: "小",
+    stages: "运营阶段",
+    phase1: "第1阶段：初始发布",
+    phase2: "第2阶段：市场扩张",
+    phase3: "第3阶段：全球扩张",
+    phaseRevenue: "预计收入",
+    phaseUsers: "目标用户",
+    phaseGoals: "目标",
+    goal1: "硬件销售和用户基础构建",
+    goal2: "内容库扩展和订阅模式强化",
+    goal3: "全球市场进入和内容合作扩展"
+  },
+  ja: {
+    title: "収益はこのように創出されます",
+    description: "SERAは様々な収益モデルを通じて持続可能なビジネスを構築します。",
+    revenueStream: "収益源",
+    proportion: "比率",
+    growth: "成長",
+    hardwareSales: "初期デバイス販売",
+    subscription: "定期購読収益",
+    contentSales: "コンテンツ販売",
+    donations: "コンテンツ支援",
+    advertising: "広告収益",
+    businessModel: "ビジネスモデル",
+    hardware: "ハードウェア",
+    content: "コンテンツ",
+    platform: "プラットフォーム",
+    margin: "利益率",
+    market: "市場規模",
+    priority: "優先度",
+    monthlyRevenue: "月間予想収益",
+    high: "高い",
+    medium: "中間",
+    low: "低い",
+    large: "大きい",
+    moderate: "中程度",
+    small: "小さい",
+    stages: "運営段階",
+    phase1: "第1段階：初期発売",
+    phase2: "第2段階：市場拡大",
+    phase3: "第3段階：グローバル展開",
+    phaseRevenue: "予想収益",
+    phaseUsers: "目標ユーザー",
+    phaseGoals: "目標",
+    goal1: "ハードウェア販売とユーザーベース構築",
+    goal2: "コンテンツライブラリ拡張と購読モデル強化",
+    goal3: "グローバル市場参入とコンテンツパートナーシップ拡大"
+  }
+};
+
+// 수익 데이터
+const revenue = [
+  { 
+    stream: texts[lang].hardwareSales, 
+    proportion: 40, 
+    growth: texts[lang].high
+  },
+  { 
+    stream: texts[lang].subscription, 
+    proportion: 30, 
+    growth: texts[lang].high
+  },
+  { 
+    stream: texts[lang].contentSales, 
+    proportion: 15, 
+    growth: texts[lang].medium
+  },
+  { 
+    stream: texts[lang].donations, 
+    proportion: 10, 
+    growth: texts[lang].medium
+  },
+  { 
+    stream: texts[lang].advertising, 
+    proportion: 5, 
+    growth: texts[lang].low
+  }
+];
+
+// 비즈니스 모델 데이터
+const businessModel = [
+  {
+    type: texts[lang].hardware,
+    margin: "40%",
+    market: texts[lang].large,
+    priority: texts[lang].high,
+    revenue: "$300K"
+  },
+  {
+    type: texts[lang].content,
+    margin: "70%",
+    market: texts[lang].moderate,
+    priority: texts[lang].medium,
+    revenue: "$150K"
+  },
+  {
+    type: texts[lang].platform,
+    margin: "85%",
+    market: texts[lang].small,
+    priority: texts[lang].medium,
+    revenue: "$100K"
+  }
+];
+
+// 운영 단계 데이터
+const stages = [
+  {
+    phase: texts[lang].phase1,
+    revenue: "$1.5M",
+    users: "30K",
+    goals: texts[lang].goal1
+  },
+  {
+    phase: texts[lang].phase2,
+    revenue: "$5M",
+    users: "100K",
+    goals: texts[lang].goal2
+  },
+  {
+    phase: texts[lang].phase3,
+    revenue: "$15M",
+    users: "500K",
+    goals: texts[lang].goal3
+  }
+];
+---
+
+<section id="revenue" class="section revenue-model">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="revenue-breakdown">
+      <div class="revenue-chart-container fade-in">
+        <canvas id="revenueChart" width="400" height="400"></canvas>
+      </div>
+      
+      <div class="revenue-table fade-in delay-100">
+        <div class="table-row table-header">
+          <div class="table-cell">{texts[lang].revenueStream}</div>
+          <div class="table-cell">{texts[lang].proportion}</div>
+          <div class="table-cell">{texts[lang].growth}</div>
+        </div>
+        
+        {revenue.map((item) => (
+          <div class="table-row">
+            <div class="table-cell">{item.stream}</div>
+            <div class="table-cell">{item.proportion}%</div>
+            <div class="table-cell">{item.growth}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="business-model-container fade-in">
+      <h3 class="content-title mb-4">{texts[lang].businessModel}</h3>
+      
+      <div class="business-model-cards">
+        {businessModel.map((model) => (
+          <div class="model-card">
+            <div class="model-header">
+              <h4>{model.type}</h4>
+            </div>
+            
+            <div class="model-details">
+              <div class="model-item">
+                <span class="item-label">{texts[lang].margin}:</span>
+                <span class="item-value">{model.margin}</span>
+              </div>
+              
+              <div class="model-item">
+                <span class="item-label">{texts[lang].market}:</span>
+                <span class="item-value">{model.market}</span>
+              </div>
+              
+              <div class="model-item">
+                <span class="item-label">{texts[lang].priority}:</span>
+                <span class="item-value">{model.priority}</span>
+              </div>
+              
+              <div class="model-item">
+                <span class="item-label">{texts[lang].monthlyRevenue}:</span>
+                <span class="item-value">{model.revenue}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="stages-container fade-in">
+      <h3 class="content-title mb-4">{texts[lang].stages}</h3>
+      
+      <div class="timeline">
+        {stages.map((stage, index) => (
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content">
+              <div class="timeline-header">
+                <h4 class="timeline-title">{stage.phase}</h4>
+                <div class="timeline-phase">Phase {index + 1}</div>
+              </div>
+              
+              <div class="timeline-details">
+                <div class="timeline-data">
+                  <div class="data-item">
+                    <span class="data-label">{texts[lang].phaseRevenue}:</span>
+                    <span class="data-value">{stage.revenue}</span>
+                  </div>
+                  
+                  <div class="data-item">
+                    <span class="data-label">{texts[lang].phaseUsers}:</span>
+                    <span class="data-value">{stage.users}</span>
+                  </div>
+                </div>
+                
+                <div class="timeline-goals">
+                  <div class="goals-label">{texts[lang].phaseGoals}:</div>
+                  <div class="goals-text">{stage.goals}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .revenue-model {
+    position: relative;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.95), var(--color-background));
+    overflow: hidden;
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .content-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .revenue-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 5rem;
+    align-items: center;
+  }
+  
+  .revenue-chart-container {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .revenue-table {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  
+  .table-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-header {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-cell {
+    padding: 1.2rem 1.5rem;
+  }
+  
+  .business-model-container {
+    margin-bottom: 5rem;
+  }
+  
+  .business-model-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  
+  .model-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .model-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .model-header {
+    background: var(--gradient-primary);
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  .model-header h4 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .model-details {
+    padding: 1.5rem;
+  }
+  
+  .model-item {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .model-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .item-label {
+    font-weight: 500;
+    opacity: 0.7;
+  }
+  
+  .item-value {
+    font-weight: 600;
+  }
+  
+  .stages-container {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 7px;
+    width: 2px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  
+  .timeline-item {
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    top: 8px;
+    left: -2rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    z-index: 1;
+  }
+  
+  .timeline-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .timeline-title {
+    font-size: 1.4rem;
+    margin: 0;
+  }
+  
+  .timeline-phase {
+    background: rgba(255, 62, 157, 0.15);
+    color: var(--color-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .timeline-details {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  
+  .timeline-data {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .data-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .data-label {
+    font-weight: 500;
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+  
+  .data-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-primary);
+  }
+  
+  .timeline-goals {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+  }
+  
+  .goals-label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  
+  .goals-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .revenue-breakdown {
+      grid-template-columns: 1fr;
+    }
+    
+    .business-model-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    
+    .revenue-chart-container {
+      height: 350px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .business-model-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .timeline-data {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .table-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .table-cell {
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.8rem 1rem;
+    }
+    
+    .table-cell:last-child {
+      border-bottom: none;
+    }
+    
+    .table-header {
+      display: none;
+    }
+    
+    .table-cell:before {
+      content: attr(data-label);
+      font-weight: 600;
+      margin-right: 1rem;
+      display: inline-block;
+      min-width: 120px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 모바일 뷰에서 데이터 레이블 추가
+    if (window.innerWidth <= 768) {
+      const headers = [
+        document.querySelector('.revenue-table .table-header .table-cell:nth-child(1)').textContent,
+        document.querySelector('.revenue-table .table-header .table-cell:nth-child(2)').textContent,
+        document.querySelector('.revenue-table .table-header .table-cell:nth-child(3)').textContent
+      ];
+      
+      document.querySelectorAll('.revenue-table .table-row:not(.table-header)').forEach(row => {
+        row.querySelectorAll('.table-cell').forEach((cell, index) => {
+          cell.setAttribute('data-label', headers[index]);
+        });
+      });
+    }
+    
+    // 수익 차트 생성
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    
+    // Chart.js를 사용하지 않고 캔버스에 직접 그리기
+    const revenueData = [
+      { label: "초기 기기 판매", value: 40, color: "#ff3e9d" },
+      { label: "정기 구독 수익", value: 30, color: "#9d00ff" },
+      { label: "콘텐츠 판매", value: 15, color: "#7000ff" },
+      { label: "콘텐츠 후원", value: 10, color: "#ff00a0" },
+      { label: "광고 수익", value: 5, color: "#c400ff" }
+    ];
+    
+    // 차트 그리기
+    function drawPieChart(ctx, data) {
+      const canvas = ctx.canvas;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = Math.min(centerX, centerY) * 0.8;
+      
+      // 합계 계산
+      const total = data.reduce((sum, item) => sum + item.value, 0);
+      
+      // 시작 각도
+      let startAngle = -Math.PI / 2;
+      
+      // 각 섹션 그리기
+      data.forEach(item => {
+        // 각도 계산
+        const sliceAngle = (2 * Math.PI * item.value) / total;
+        
+        // 섹션 그리기
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        
+        // 섹션 스타일 설정
+        ctx.fillStyle = item.color;
+        ctx.fill();
+        
+        // 섹션 간격 그리기
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(18, 18, 18, 0.8)';
+        ctx.fill();
+        
+        // 다음 섹션의 시작 각도 업데이트
+        startAngle += sliceAngle;
+      });
+      
+      // 중앙 원 그리기
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius * 0.6, 0, 2 * Math.PI);
+      ctx.fillStyle = 'rgba(18, 18, 18, 0.8)';
+      ctx.fill();
+      
+      // 라벨 그리기
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 16px Pretendard, sans-serif';
+      ctx.fillText('Revenue', centerX, centerY - 10);
+      ctx.font = '14px Pretendard, sans-serif';
+      ctx.fillText('Breakdown', centerX, centerY + 15);
+    }
+    
+    // 차트 그리기
+    if (ctx) {
+      drawPieChart(ctx, revenueData);
+    }
+  });
+</script>

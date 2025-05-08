@@ -1,0 +1,610 @@
+---
+// src/components/MarketVision.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "왜 지금, 세라인가?",
+    description: "급속도로 성장하는 글로벌 성인 콘텐츠 시장과 함께, 실감형 콘텐츠에 대한 수요가 증가하고 있습니다.",
+    marketSize: "시장 규모",
+    marketGrowth: "연간 성장률",
+    userBase: "잠재 사용자 기반",
+    years: "년간",
+    billion: "억 달러",
+    million: "백만 명",
+    trendTitle: "시장 트렌드",
+    trend1: "실감형 콘텐츠 수요 증가",
+    trend2: "햅틱 디바이스 기술 발전",
+    trend3: "글로벌 온라인 콘텐츠 시장 확대",
+    trend4: "개인 맞춤형 경험 중요성 증가",
+    visionTitle: "세라의 비전",
+    vision1: "혁신적인 햅틱 기술로 시장 선도",
+    vision2: "글로벌 콘텐츠 네트워크 구축",
+    vision3: "지속적인 R&D 투자 및 기술 고도화",
+    vision4: "사용자 중심 서비스 개발",
+    competition: "경쟁 비교",
+    company: "회사",
+    hapticSupport: "햅틱 지원",
+    contentLibrary: "콘텐츠 라이브러리",
+    mobileApp: "모바일 앱",
+    userExperience: "사용자 경험",
+    competitor1: "경쟁사 A",
+    competitor2: "경쟁사 B",
+    sera: "세라",
+    yes: "있음",
+    no: "없음",
+    limited: "제한적",
+    extensive: "광범위",
+    good: "좋음",
+    excellent: "매우 좋음",
+    average: "보통"
+  },
+  en: {
+    title: "Why SERA, Why Now?",
+    description: "With the rapidly growing global adult content market, demand for immersive content is increasing.",
+    marketSize: "Market Size",
+    marketGrowth: "Annual Growth",
+    userBase: "Potential User Base",
+    years: "years",
+    billion: "billion USD",
+    million: "million users",
+    trendTitle: "Market Trends",
+    trend1: "Increasing demand for immersive content",
+    trend2: "Advancement in haptic device technology",
+    trend3: "Expansion of global online content market",
+    trend4: "Growing importance of personalized experiences",
+    visionTitle: "SERA's Vision",
+    vision1: "Lead the market with innovative haptic technology",
+    vision2: "Build a global content network",
+    vision3: "Continuous R&D investment and technology advancement",
+    vision4: "Develop user-centered services",
+    competition: "Competitive Comparison",
+    company: "Company",
+    hapticSupport: "Haptic Support",
+    contentLibrary: "Content Library",
+    mobileApp: "Mobile App",
+    userExperience: "User Experience",
+    competitor1: "Competitor A",
+    competitor2: "Competitor B",
+    sera: "SERA",
+    yes: "Yes",
+    no: "No",
+    limited: "Limited",
+    extensive: "Extensive",
+    good: "Good",
+    excellent: "Excellent",
+    average: "Average"
+  },
+  zh: {
+    title: "为什么选择SERA？为什么是现在？",
+    description: "随着全球成人内容市场的快速增长，对沉浸式内容的需求正在增加。",
+    marketSize: "市场规模",
+    marketGrowth: "年增长率",
+    userBase: "潜在用户基础",
+    years: "年",
+    billion: "亿美元",
+    million: "百万用户",
+    trendTitle: "市场趋势",
+    trend1: "沉浸式内容需求增加",
+    trend2: "触觉设备技术进步",
+    trend3: "全球在线内容市场扩张",
+    trend4: "个性化体验的重要性日益增长",
+    visionTitle: "SERA的愿景",
+    vision1: "用创新的触觉技术引领市场",
+    vision2: "建立全球内容网络",
+    vision3: "持续的研发投资和技术进步",
+    vision4: "开发以用户为中心的服务",
+    competition: "竞争比较",
+    company: "公司",
+    hapticSupport: "触觉支持",
+    contentLibrary: "内容库",
+    mobileApp: "移动应用",
+    userExperience: "用户体验",
+    competitor1: "竞争对手A",
+    competitor2: "竞争对手B",
+    sera: "SERA",
+    yes: "有",
+    no: "无",
+    limited: "有限",
+    extensive: "广泛",
+    good: "好",
+    excellent: "很好",
+    average: "一般"
+  },
+  ja: {
+    title: "なぜ今、SERAなのか？",
+    description: "急速に成長するグローバル成人コンテンツ市場と共に、没入型コンテンツへの需要が増加しています。",
+    marketSize: "市場規模",
+    marketGrowth: "年間成長率",
+    userBase: "潜在的ユーザーベース",
+    years: "年間",
+    billion: "億ドル",
+    million: "百万人",
+    trendTitle: "市場トレンド",
+    trend1: "没入型コンテンツの需要増加",
+    trend2: "ハプティックデバイス技術の進歩",
+    trend3: "グローバルオンラインコンテンツ市場の拡大",
+    trend4: "パーソナライズされた体験の重要性の増加",
+    visionTitle: "SERAのビジョン",
+    vision1: "革新的なハプティック技術で市場をリード",
+    vision2: "グローバルコンテンツネットワークの構築",
+    vision3: "継続的なR&D投資と技術の高度化",
+    vision4: "ユーザー中心のサービス開発",
+    competition: "競合比較",
+    company: "会社",
+    hapticSupport: "ハプティックサポート",
+    contentLibrary: "コンテンツライブラリ",
+    mobileApp: "モバイルアプリ",
+    userExperience: "ユーザー体験",
+    competitor1: "競合他社A",
+    competitor2: "競合他社B",
+    sera: "SERA",
+    yes: "あり",
+    no: "なし",
+    limited: "限定的",
+    extensive: "幅広い",
+    good: "良い",
+    excellent: "非常に良い",
+    average: "普通"
+  }
+};
+
+// 시장 데이터
+const marketData = {
+  size: 42.5,
+  growth: 15.7,
+  users: 650
+};
+---
+
+<section id="market" class="section market-vision">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="market-stats">
+      <div class="stat-card fade-in">
+        <div class="stat-value">{marketData.size}</div>
+        <div class="stat-unit">{texts[lang].billion}</div>
+        <div class="stat-label">{texts[lang].marketSize}</div>
+        <div class="stat-trend">
+          <i class="fas fa-chart-line"></i> +5.2% (5 {texts[lang].years})
+        </div>
+      </div>
+      
+      <div class="stat-card fade-in delay-100">
+        <div class="stat-value">{marketData.growth}%</div>
+        <div class="stat-label">{texts[lang].marketGrowth}</div>
+        <div class="stat-trend">
+          <i class="fas fa-arrow-up"></i> +2.3% (2024)
+        </div>
+      </div>
+      
+      <div class="stat-card fade-in delay-200">
+        <div class="stat-value">{marketData.users}</div>
+        <div class="stat-unit">{texts[lang].million}</div>
+        <div class="stat-label">{texts[lang].userBase}</div>
+        <div class="stat-trend">
+          <i class="fas fa-users"></i> +8.6% (YoY)
+        </div>
+      </div>
+    </div>
+    
+    <div class="market-content">
+      <div class="market-trends">
+        <h3 class="content-title">{texts[lang].trendTitle}</h3>
+        
+        <div class="trends-list">
+          <div class="trend-item fade-in">
+            <div class="trend-icon">
+              <i class="fas fa-vr-cardboard"></i>
+            </div>
+            <div class="trend-text">{texts[lang].trend1}</div>
+          </div>
+          
+          <div class="trend-item fade-in delay-100">
+            <div class="trend-icon">
+              <i class="fas fa-microchip"></i>
+            </div>
+            <div class="trend-text">{texts[lang].trend2}</div>
+          </div>
+          
+          <div class="trend-item fade-in delay-200">
+            <div class="trend-icon">
+              <i class="fas fa-globe"></i>
+            </div>
+            <div class="trend-text">{texts[lang].trend3}</div>
+          </div>
+          
+          <div class="trend-item fade-in delay-300">
+            <div class="trend-icon">
+              <i class="fas fa-user-cog"></i>
+            </div>
+            <div class="trend-text">{texts[lang].trend4}</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="vision">
+        <h3 class="content-title">{texts[lang].visionTitle}</h3>
+        
+        <div class="vision-list">
+          <div class="vision-item fade-in">
+            <div class="vision-number">01</div>
+            <div class="vision-text">{texts[lang].vision1}</div>
+          </div>
+          
+          <div class="vision-item fade-in delay-100">
+            <div class="vision-number">02</div>
+            <div class="vision-text">{texts[lang].vision2}</div>
+          </div>
+          
+          <div class="vision-item fade-in delay-200">
+            <div class="vision-number">03</div>
+            <div class="vision-text">{texts[lang].vision3}</div>
+          </div>
+          
+          <div class="vision-item fade-in delay-300">
+            <div class="vision-number">04</div>
+            <div class="vision-text">{texts[lang].vision4}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="competition-table-container fade-in">
+      <h3 class="content-title text-center mb-4">{texts[lang].competition}</h3>
+      
+      <div class="competition-table">
+        <div class="table-row table-header">
+          <div class="table-cell">{texts[lang].company}</div>
+          <div class="table-cell">{texts[lang].hapticSupport}</div>
+          <div class="table-cell">{texts[lang].contentLibrary}</div>
+          <div class="table-cell">{texts[lang].mobileApp}</div>
+          <div class="table-cell">{texts[lang].userExperience}</div>
+        </div>
+        
+        <div class="table-row">
+          <div class="table-cell highlight">{texts[lang].competitor1}</div>
+          <div class="table-cell">{texts[lang].limited}</div>
+          <div class="table-cell">{texts[lang].limited}</div>
+          <div class="table-cell">{texts[lang].yes}</div>
+          <div class="table-cell">{texts[lang].average}</div>
+        </div>
+        
+        <div class="table-row">
+          <div class="table-cell highlight">{texts[lang].competitor2}</div>
+          <div class="table-cell">{texts[lang].no}</div>
+          <div class="table-cell">{texts[lang].extensive}</div>
+          <div class="table-cell">{texts[lang].no}</div>
+          <div class="table-cell">{texts[lang].good}</div>
+        </div>
+        
+        <div class="table-row highlight-row">
+          <div class="table-cell highlight">{texts[lang].sera}</div>
+          <div class="table-cell">{texts[lang].yes}</div>
+          <div class="table-cell">{texts[lang].extensive}</div>
+          <div class="table-cell">{texts[lang].yes}</div>
+          <div class="table-cell">{texts[lang].excellent}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="background-glow"></div>
+</section>
+
+<style>
+  .market-vision {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .market-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+  
+  .stat-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: 5px;
+    background: var(--gradient-primary);
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .stat-card:hover::before {
+    opacity: 1;
+  }
+  
+  .stat-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .stat-unit {
+    font-size: 1.2rem;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .stat-trend {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .stat-trend i {
+    color: var(--color-primary);
+    margin-right: 0.25rem;
+  }
+  
+  .market-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+  }
+  
+  .content-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .trends-list, .vision-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .trend-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--color-card);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .trend-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .trend-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .trend-icon i {
+    font-size: 1.3rem;
+    color: white;
+  }
+  
+  .trend-text {
+    font-size: 1.1rem;
+  }
+  
+  .vision-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    background: var(--color-card);
+    border-radius: 10px;
+    padding: 1.2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .vision-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+  
+  .vision-number {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    opacity: 0.8;
+    flex-shrink: 0;
+    width: 50px;
+    text-align: center;
+  }
+  
+  .vision-text {
+    font-size: 1.1rem;
+  }
+  
+  .competition-table-container {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    overflow-x: auto;
+  }
+  
+  .competition-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-row:last-child {
+    border-bottom: none;
+  }
+  
+  .table-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .table-header {
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-border);
+  }
+  
+  .table-cell {
+    padding: 1.2rem 1rem;
+    text-align: center;
+  }
+  
+  .highlight {
+    font-weight: 600;
+  }
+  
+  .highlight-row {
+    background: rgba(255, 62, 157, 0.05);
+  }
+  
+  .highlight-row .table-cell {
+    color: var(--color-primary);
+  }
+  
+  .background-glow {
+    position: absolute;
+    bottom: -350px;
+    right: -350px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(255, 62, 157, 0.15) 0%, rgba(157, 0, 255, 0.1) 30%, rgba(0, 0, 0, 0) 70%);
+    border-radius: 50%;
+    z-index: -1;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .market-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .market-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .stat-value {
+      font-size: 3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .market-stats {
+      grid-template-columns: 1fr;
+    }
+    
+    .table-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .table-cell {
+      text-align: left;
+      border-bottom: 1px solid var(--color-border);
+      padding: 0.8rem 1rem;
+    }
+    
+    .table-cell:last-child {
+      border-bottom: none;
+    }
+    
+    .table-header {
+      display: none;
+    }
+    
+    .table-cell:before {
+      content: attr(data-label);
+      font-weight: 600;
+      margin-right: 1rem;
+      display: inline-block;
+      min-width: 120px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 모바일 뷰에서 데이터 레이블 추가
+    if (window.innerWidth <= 768) {
+      const tableCells = document.querySelectorAll('.competition-table .table-row:not(.table-header) .table-cell');
+      
+      const headers = [];
+      document.querySelectorAll('.competition-table .table-header .table-cell').forEach(cell => {
+        headers.push(cell.textContent);
+      });
+      
+      tableCells.forEach((cell, index) => {
+        const headerIndex = index % headers.length;
+        cell.setAttribute('data-label', headers[headerIndex]);
+      });
+    }
+  });
+</script>

@@ -1,0 +1,606 @@
+---
+// src/components/Partners.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "우리는 이렇게 성장하고 있습니다",
+    description: "세라는 선도적인 파트너들과 함께 미래의 실감형 콘텐츠 경험을 만들어갑니다.",
+    hardwarePartners: "하드웨어 제휴사",
+    contentPartners: "콘텐츠 파트너",
+    metrics: "주요 지표",
+    users: "베타 사용자",
+    returnRate: "재방문율",
+    avgTime: "평균 체류시간",
+    minutes: "분",
+    testimonials: "파트너 리뷰",
+    quote1: "세라와의 협업은 우리 제품에 혁신적인 활용 사례를 제공했습니다. 사용자 참여도가 크게 증가했습니다.",
+    author1: "김태준",
+    position1: "하드웨어 파트너 A 대표",
+    quote2: "세라 플랫폼은 콘텐츠 제작자에게 새로운 수익 창출 기회를 제공합니다. 우리의 콘텐츠 소비가 30% 증가했습니다.",
+    author2: "제시카 리",
+    position2: "콘텐츠 파트너 B 이사",
+    jointProjects: "진행 중인 협업 프로젝트",
+    project1: "차세대 햅틱 기술 개발",
+    project2: "맞춤형 콘텐츠 제작 시스템",
+    project3: "글로벌 콘텐츠 배포 네트워크"
+  },
+  en: {
+    title: "This is how we are growing",
+    description: "SERA creates the future of immersive content experiences together with leading partners.",
+    hardwarePartners: "Hardware Partners",
+    contentPartners: "Content Partners",
+    metrics: "Key Metrics",
+    users: "Beta Users",
+    returnRate: "Return Rate",
+    avgTime: "Avg. Session Time",
+    minutes: "min",
+    testimonials: "Partner Reviews",
+    quote1: "Our collaboration with SERA has provided innovative use cases for our products. User engagement has significantly increased.",
+    author1: "Taejun Kim",
+    position1: "CEO, Hardware Partner A",
+    quote2: "The SERA platform offers content creators new revenue opportunities. Our content consumption has increased by 30%.",
+    author2: "Jessica Lee",
+    position2: "Director, Content Partner B",
+    jointProjects: "Ongoing Collaboration Projects",
+    project1: "Next-gen Haptic Technology Development",
+    project2: "Customized Content Production System",
+    project3: "Global Content Distribution Network"
+  },
+  zh: {
+    title: "我们正在这样成长",
+    description: "SERA与领先合作伙伴共同创造未来沉浸式内容体验。",
+    hardwarePartners: "硬件合作伙伴",
+    contentPartners: "内容合作伙伴",
+    metrics: "关键指标",
+    users: "测试用户",
+    returnRate: "回访率",
+    avgTime: "平均会话时间",
+    minutes: "分钟",
+    testimonials: "合作伙伴评价",
+    quote1: "与SERA的合作为我们的产品提供了创新用例。用户参与度显著提高。",
+    author1: "金泰俊",
+    position1: "硬件合作伙伴A首席执行官",
+    quote2: "SERA平台为内容创作者提供了新的收入机会。我们的内容消费增加了30%。",
+    author2: "李杰西卡",
+    position2: "内容合作伙伴B总监",
+    jointProjects: "正在进行的合作项目",
+    project1: "下一代触觉技术开发",
+    project2: "定制内容制作系统",
+    project3: "全球内容分发网络"
+  },
+  ja: {
+    title: "私たちはこのように成長しています",
+    description: "SERAは主要パートナーと共に、未来の没入型コンテンツ体験を創造しています。",
+    hardwarePartners: "ハードウェアパートナー",
+    contentPartners: "コンテンツパートナー",
+    metrics: "主要指標",
+    users: "ベータユーザー",
+    returnRate: "再訪率",
+    avgTime: "平均セッション時間",
+    minutes: "分",
+    testimonials: "パートナーレビュー",
+    quote1: "SERAとのコラボレーションは、私たちの製品に革新的な使用例を提供しました。ユーザーエンゲージメントが大幅に向上しました。",
+    author1: "キム・テジュン",
+    position1: "ハードウェアパートナーA CEO",
+    quote2: "SERAプラットフォームはコンテンツクリエイターに新たな収益機会を提供します。私たちのコンテンツ消費は30%増加しました。",
+    author2: "ジェシカ・リー",
+    position2: "コンテンツパートナーB ディレクター",
+    jointProjects: "進行中のコラボレーションプロジェクト",
+    project1: "次世代ハプティック技術開発",
+    project2: "カスタマイズされたコンテンツ制作システム",
+    project3: "グローバルコンテンツ配信ネットワーク"
+  }
+};
+
+// 파트너 데이터
+const partners = {
+  hardware: [
+    { id: 1, name: "Partner A", logo: "A" },
+    { id: 2, name: "Partner B", logo: "B" },
+    { id: 3, name: "Partner C", logo: "C" },
+    { id: 4, name: "Partner D", logo: "D" }
+  ],
+  content: [
+    { id: 5, name: "Content X", logo: "X" },
+    { id: 6, name: "Content Y", logo: "Y" },
+    { id: 7, name: "Content Z", logo: "Z" },
+    { id: 8, name: "Content W", logo: "W" }
+  ]
+};
+
+// 지표 데이터
+const metrics = {
+  users: 15000,
+  returnRate: 68,
+  avgTime: 42
+};
+---
+
+<section id="partner" class="section partners">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="text-gradient">{texts[lang].title}</h2>
+      <p class="section-description">{texts[lang].description}</p>
+    </div>
+    
+    <div class="partner-categories">
+      <div class="partner-category fade-in">
+        <h3>{texts[lang].hardwarePartners}</h3>
+        
+        <div class="partner-logos">
+          {partners.hardware.map((partner) => (
+            <div class="partner-logo">
+              <div class="logo-placeholder">{partner.logo}</div>
+              <span class="partner-name">{partner.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div class="partner-category fade-in delay-100">
+        <h3>{texts[lang].contentPartners}</h3>
+        
+        <div class="partner-logos">
+          {partners.content.map((partner) => (
+            <div class="partner-logo">
+              <div class="logo-placeholder">{partner.logo}</div>
+              <span class="partner-name">{partner.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+    
+    <div class="metrics-container">
+      <h3 class="text-center mb-4">{texts[lang].metrics}</h3>
+      
+      <div class="metrics-grid">
+        <div class="metric-card fade-in">
+          <div class="metric-value">{metrics.users.toLocaleString()}</div>
+          <div class="metric-label">{texts[lang].users}</div>
+          <div class="metric-graph">
+            <div class="graph-bar" style="width: 85%;"></div>
+          </div>
+        </div>
+        
+        <div class="metric-card fade-in delay-100">
+          <div class="metric-value">{metrics.returnRate}%</div>
+          <div class="metric-label">{texts[lang].returnRate}</div>
+          <div class="metric-graph">
+            <div class="graph-bar" style="width: 68%;"></div>
+          </div>
+        </div>
+        
+        <div class="metric-card fade-in delay-200">
+          <div class="metric-value">{metrics.avgTime}</div>
+          <div class="metric-label">{texts[lang].avgTime}</div>
+          <div class="metric-unit">{texts[lang].minutes}</div>
+          <div class="metric-graph">
+            <div class="graph-bar" style="width: 75%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="testimonials-container">
+      <h3 class="text-center mb-4">{texts[lang].testimonials}</h3>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card fade-in">
+          <div class="quote-icon">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <blockquote>
+            {texts[lang].quote1}
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <div class="avatar-placeholder"></div>
+            </div>
+            <div class="author-info">
+              <div class="author-name">{texts[lang].author1}</div>
+              <div class="author-position">{texts[lang].position1}</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card fade-in delay-100">
+          <div class="quote-icon">
+            <i class="fas fa-quote-left"></i>
+          </div>
+          <blockquote>
+            {texts[lang].quote2}
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">
+              <div class="avatar-placeholder"></div>
+            </div>
+            <div class="author-info">
+              <div class="author-name">{texts[lang].author2}</div>
+              <div class="author-position">{texts[lang].position2}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="projects-container fade-in">
+      <h3 class="text-center mb-4">{texts[lang].jointProjects}</h3>
+      
+      <div class="projects-timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>{texts[lang].project1}</h4>
+            <div class="progress-bar">
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+            <div class="progress-text">75%</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>{texts[lang].project2}</h4>
+            <div class="progress-bar">
+              <div class="progress" style="width: 50%;"></div>
+            </div>
+            <div class="progress-text">50%</div>
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>{texts[lang].project3}</h4>
+            <div class="progress-bar">
+              <div class="progress" style="width: 30%;"></div>
+            </div>
+            <div class="progress-text">30%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partners {
+    position: relative;
+    background: linear-gradient(180deg, var(--color-background), rgba(18, 18, 18, 0.95));
+  }
+  
+  .section-description {
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    font-size: 1.2rem;
+    opacity: 0.9;
+  }
+  
+  .partner-categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-bottom: 5rem;
+  }
+  
+  .partner-category h3 {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .partner-logos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .partner-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s ease;
+  }
+  
+  .partner-logo:hover {
+    transform: translateY(-5px);
+  }
+  
+  .logo-placeholder {
+    width: 120px;
+    height: 120px;
+    background: var(--color-card);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .partner-name {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  
+  .metrics-container {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    margin-bottom: 5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .metrics-container h3 {
+    font-size: 1.8rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .metric-card {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    position: relative;
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .metric-label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metric-unit {
+    font-size: 1rem;
+    opacity: 0.7;
+    margin-top: -1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .metric-graph {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  
+  .graph-bar {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+  }
+  
+  .testimonials-container {
+    margin-bottom: 5rem;
+  }
+  
+  .testimonials-container h3 {
+    font-size: 1.8rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .testimonial-card {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  }
+  
+  .quote-icon {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .quote-icon i {
+    color: white;
+    font-size: 1.2rem;
+  }
+  
+  blockquote {
+    font-size: 1.1rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+  
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .author-avatar {
+    flex-shrink: 0;
+  }
+  
+  .avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+  }
+  
+  .author-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .author-position {
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .projects-container {
+    background: var(--color-card);
+    border-radius: 12px;
+    padding: 2.5rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
+  
+  .projects-container h3 {
+    font-size: 1.8rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+  }
+  
+  .projects-timeline {
+    margin-top: 2rem;
+    position: relative;
+    padding-left: 2rem;
+  }
+  
+  .projects-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 7px;
+    width: 2px;
+    height: 100%;
+    background: var(--color-border);
+  }
+  
+  .timeline-item {
+    margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    top: 5px;
+    left: -2rem;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    z-index: 1;
+  }
+  
+  .timeline-content {
+    padding-bottom: 1rem;
+  }
+  
+  .timeline-content h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  
+  .progress {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 3px;
+  }
+  
+  .progress-text {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    text-align: right;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .partner-categories {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .partner-logos {
+      grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
