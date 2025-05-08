@@ -1,44 +1,44 @@
 ---
-// 테스트용 인덱스 페이지
+// 기본 경로로 접속 시 /ko로 리디렉션
+const userLanguage = 'ko'; // 실제 상황에선 브라우저 언어 감지 로직 추가
+
+// 리디렉션
+export function getStaticPaths() {
+  return [
+    { params: { lang: undefined } },
+  ];
+}
+
+const baseUrl = import.meta.env.BASE_URL;
+const redirectUrl = baseUrl ? (baseUrl.endsWith('/') ? `${baseUrl}ko/` : `${baseUrl}/ko/`) : '/ko/';
 ---
 
-<html lang="ko">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>세라 (SERA) - 테스트 페이지</title>
-	<style>
-		body {
-			font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-			background-color: #121212;
-			color: #ffffff;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			height: 100vh;
-			margin: 0;
-			padding: 0 20px;
-			text-align: center;
-		}
-		h1 {
-			font-size: 3rem;
-			margin-bottom: 1rem;
-			background: linear-gradient(45deg, #ff3e9d, #9d00ff);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-		}
-		p {
-			font-size: 1.2rem;
-			max-width: 600px;
-			margin: 0 auto 1.5rem;
-			opacity: 0.8;
-		}
-	</style>
-</head>
+<meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
+
+<script define:vars={{ redirectUrl }}>
+  window.location.href = redirectUrl;
+</script>
+
+<style>
+  :root {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+  }
+  
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    text-align: center;
+  }
+</style>
+
 <body>
-	<h1>SERA (세라)</h1>
-	<p>GitHub Pages 테스트 페이지입니다.</p>
-	<p>베이스 경로: {import.meta.env.BASE_URL}</p>
+  <div>
+    <h1>리디렉션 중...</h1>
+    <p>자동으로 이동하지 않는 경우 <a href={redirectUrl}>여기</a>를 클릭하세요.</p>
+  </div>
 </body>
-</html>

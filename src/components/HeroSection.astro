@@ -1,0 +1,344 @@
+---
+// src/components/HeroSection.astro
+interface Props {
+  lang: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const { lang = 'ko' } = Astro.props;
+
+// 다국어 텍스트
+const texts = {
+  ko: {
+    title: "당신의 새로운 경험, SERA",
+    subtitle: "실시간 영상과 연동되는 META TOY로 몰입감 있는 경험 제공",
+    cta: "더 알아보기"
+  },
+  en: {
+    title: "Your New Experience, SERA",
+    subtitle: "Immersive experiences with META TOY synchronized with real-time video",
+    cta: "Learn More"
+  },
+  zh: {
+    title: "您的全新体验，SERA",
+    subtitle: "通过与实时视频同步的META TOY提供沉浸式体验",
+    cta: "了解更多"
+  },
+  ja: {
+    title: "あなたの新しい体験、SERA",
+    subtitle: "リアルタイム映像と連動するMETA TOYで没入感のある体験を提供",
+    cta: "詳しく見る"
+  }
+};
+---
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="fade-in">
+        {texts[lang].title}
+      </h1>
+      <p class="fade-in delay-200">
+        {texts[lang].subtitle}
+      </p>
+      <div class="cta-buttons fade-in delay-300">
+        <a href="#service" class="btn btn-primary">
+          {texts[lang].cta}
+        </a>
+      </div>
+    </div>
+    <div class="hero-image fade-in delay-200">
+      <div class="hero-device">
+        <!-- 디바이스 이미지가 들어갈 공간 -->
+        <div class="device-glow"></div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-background">
+    <div class="gradient-overlay"></div>
+    <div class="particle-container" id="particles-js"></div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-top: 5rem;
+  }
+  
+  .hero-content {
+    width: 55%;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .hero h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .hero p {
+    font-size: 1.4rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+    max-width: 600px;
+  }
+  
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .hero-image {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+  }
+  
+  .hero-device {
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="%23333" /></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+  }
+  
+  .device-glow {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    left: -10%;
+    top: -10%;
+    background: radial-gradient(circle, rgba(255, 62, 157, 0.4) 0%, rgba(157, 0, 255, 0.2) 40%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(30px);
+    opacity: 0.8;
+    animation: pulse 3s ease-in-out infinite alternate;
+  }
+  
+  .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  .gradient-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 50%, rgba(157, 0, 255, 0.15) 0%, rgba(18, 18, 18, 0.7) 70%);
+    z-index: 2;
+  }
+  
+  .particle-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    100% {
+      opacity: 0.8;
+      transform: scale(1.1);
+    }
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 1200px) {
+    .hero h1 {
+      font-size: 3.5rem;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .hero-content {
+      width: 100%;
+      text-align: center;
+      padding: 0 1rem;
+    }
+    
+    .hero p {
+      margin: 0 auto 2rem;
+    }
+    
+    .cta-buttons {
+      justify-content: center;
+    }
+    
+    .hero-image {
+      position: relative;
+      width: 100%;
+      height: 400px;
+      transform: none;
+      top: auto;
+      margin-top: 3rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .hero {
+      min-height: auto;
+      padding: 8rem 0 5rem;
+    }
+    
+    .hero h1 {
+      font-size: 3rem;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+    }
+    
+    .hero-image {
+      height: 300px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+    
+    .hero-image {
+      height: 250px;
+    }
+  }
+</style>
+
+<script>
+  // 파티클 효과 추가 (particles.js 라이브러리 활용)
+  document.addEventListener('DOMContentLoaded', function() {
+    // 임시 대체 배경을 사용하여 particles.js가 없어도 시각적 효과가 보이도록 합니다
+    const particleContainer = document.getElementById('particles-js');
+    if (!particleContainer) return;
+    
+    try {
+      if (typeof window.particlesJS !== 'undefined') {
+        window.particlesJS('particles-js', {
+          particles: {
+            number: { value: 80, density: { enable: true, value_area: 800 } },
+            color: { value: ["#ff3e9d", "#9d00ff"] },
+            shape: { type: "circle" },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: "#9d00ff", 
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: "none",
+              random: true,
+              out_mode: "out"
+            }
+          },
+          interactivity: {
+            detect_on: "canvas",
+            events: {
+              onhover: { enable: true, mode: "repulse" },
+              onclick: { enable: true, mode: "push" }
+            }
+          }
+        });
+      } else {
+        // particles.js가 로드되지 않았을 때 대체 시각적 효과
+        createFallbackParticles(particleContainer);
+      }
+    } catch (error) {
+      console.log("Error initializing particles:", error);
+      // 오류 발생 시 대체 효과
+      createFallbackParticles(particleContainer);
+    }
+  });
+  
+  // particles.js가 없을 때 대체 배경 효과 생성
+  function createFallbackParticles(container) {
+    if (!container) return;
+    
+    // 기존 내용 지우기
+    container.innerHTML = '';
+    container.style.position = 'absolute';
+    container.style.top = '0';
+    container.style.left = '0';
+    container.style.width = '100%';
+    container.style.height = '100%';
+    container.style.overflow = 'hidden';
+    
+    // 20개의 가상 입자 생성
+    for (let i = 0; i < 20; i++) {
+      const dot = document.createElement('div');
+      const size = Math.random() * 5 + 2;
+      
+      dot.style.position = 'absolute';
+      dot.style.width = `${size}px`;
+      dot.style.height = `${size}px`;
+      dot.style.borderRadius = '50%';
+      dot.style.opacity = Math.random() * 0.5 + 0.2;
+      
+      // 랜덤 색상 (핑크 또는 보라색)
+      const colors = ['#ff3e9d', '#9d00ff'];
+      dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      
+      // 랜덤 위치
+      dot.style.left = `${Math.random() * 100}%`;
+      dot.style.top = `${Math.random() * 100}%`;
+      
+      // 애니메이션
+      dot.style.animation = `floatParticle ${Math.random() * 10 + 10}s linear infinite`;
+      
+      container.appendChild(dot);
+    }
+    
+    // CSS 애니메이션 추가
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes floatParticle {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
+        50% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
+        75% { transform: translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px); }
+        100% { transform: translate(0, 0); }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+</script>

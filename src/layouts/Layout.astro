@@ -1,22 +1,554 @@
+---
+// src/layouts/Layout.astro
+import { getRelativeLocaleUrl } from "astro:i18n";
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: 'ko' | 'en' | 'zh' | 'ja';
+}
+
+const {
+  title = "SERA - 실시간 영상과 연동되는 META TOY",
+  description = "실시간 영상과 연동되는 META TOY로 몰입감 있는 경험 제공",
+  lang = "ko",
+} = Astro.props;
+
+// 현재 페이지 URL에서 현재 언어 경로 추출
+const currentPath = Astro.url.pathname;
+const currentLang = ['ko', 'en', 'zh', 'ja'].find(l => 
+  currentPath.includes(`/${l}/`) || currentPath.endsWith(`/${l}`)
+) || 'ko';
+
+// 페이지 타이틀 다국어 처리
+const titles = {
+  ko: "SERA - 실시간 영상과 연동되는 META TOY",
+  en: "SERA - META TOY Synchronized with Real-time Video",
+  zh: "SERA - 与实时视频同步的 META TOY",
+  ja: "SERA - リアルタイム映像と連動する META TOY",
+};
+
+// 언어 선택 옵션
+const languages = [
+  { code: 'ko', name: '한국어', flag: '🇰🇷' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+];
+
+// 메뉴 항목
+const menuItems = {
+  ko: [
+    { href: "#service", text: "서비스" },
+    { href: "#product", text: "제품" },
+    { href: "#content", text: "콘텐츠" },
+    { href: "#market", text: "시장전망" },
+    { href: "#partner", text: "파트너" },
+    { href: "#revenue", text: "수익모델" },
+    { href: "#investment", text: "투자" },
+    { href: "#contact", text: "연락처" },
+  ],
+  en: [
+    { href: "#service", text: "Service" },
+    { href: "#product", text: "Product" },
+    { href: "#content", text: "Content" },
+    { href: "#market", text: "Market" },
+    { href: "#partner", text: "Partners" },
+    { href: "#revenue", text: "Revenue" },
+    { href: "#investment", text: "Investment" },
+    { href: "#contact", text: "Contact" },
+  ],
+  zh: [
+    { href: "#service", text: "服务" },
+    { href: "#product", text: "产品" },
+    { href: "#content", text: "内容" },
+    { href: "#market", text: "市场前景" },
+    { href: "#partner", text: "合作伙伴" },
+    { href: "#revenue", text: "收益模式" },
+    { href: "#investment", text: "投资" },
+    { href: "#contact", text: "联系方式" },
+  ],
+  ja: [
+    { href: "#service", text: "サービス" },
+    { href: "#product", text: "製品" },
+    { href: "#content", text: "コンテンツ" },
+    { href: "#market", text: "市場展望" },
+    { href: "#partner", text: "パートナー" },
+    { href: "#revenue", text: "収益モデル" },
+    { href: "#investment", text: "投資" },
+    { href: "#contact", text: "お問い合わせ" },
+  ],
+};
+
+// 푸터 텍스트
+const footerText = {
+  ko: {
+    rights: "© 2025 (주)세라. 모든 권리 보유.",
+    terms: "이용약관",
+    privacy: "개인정보처리방침",
+  },
+  en: {
+    rights: "© 2025 SERA Inc. All rights reserved.",
+    terms: "Terms of Service",
+    privacy: "Privacy Policy",
+  },
+  zh: {
+    rights: "© 2025 SERA公司。保留所有权利。",
+    terms: "使用条款",
+    privacy: "隐私政策",
+  },
+  ja: {
+    rights: "© 2025 SERA株式会社。全著作権所有。",
+    terms: "利用規約",
+    privacy: "プライバシーポリシー",
+  },
+};
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}/favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{titles[lang] || title}</title>
+    <link rel="stylesheet" href={`${import.meta.env.BASE_URL}/styles/global.css`} />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src={`${import.meta.env.BASE_URL}/js/particles.min.js`}></script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav>
+          <div class="logo">
+            <a href={getRelativeLocaleUrl(lang, '')}>
+              <span class="text-gradient">SERA</span>
+            </a>
+          </div>
+          
+          <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+          </div>
+          
+          <ul class="menu">
+            {menuItems[lang].map((item) => (
+              <li>
+                <a href={item.href}>{item.text}</a>
+              </li>
+            ))}
+            
+            <li class="language-selector">
+              <div class="selected-language">
+                <span class="flag">{languages.find(l => l.code === lang)?.flag}</span>
+                <span class="lang-name">{languages.find(l => l.code === lang)?.name}</span>
+                <i class="fa-solid fa-chevron-down"></i>
+              </div>
+              
+              <ul class="language-dropdown">
+                {languages.map((language) => (
+                  <li class={language.code === lang ? "active" : ""}>
+                    <a href={getRelativeLocaleUrl(language.code, '')}>
+                      <span class="flag">{language.flag}</span>
+                      <span class="lang-name">{language.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <span class="text-gradient">SERA</span>
+            <p>{footerText[lang].rights}</p>
+          </div>
+          
+          <div class="footer-links">
+            <a href="#">{footerText[lang].terms}</a>
+            <a href="#">{footerText[lang].privacy}</a>
+          </div>
+          
+          <div class="social-links">
+            <a href="#" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" aria-label="Twitter">
+              <i class="fab fa-x-twitter"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+          </div>
+          
+          <div class="language-selector-footer">
+            <select id="languageSelect" onchange="window.location.href=this.value">
+              {languages.map((language) => (
+                <option 
+                  value={getRelativeLocaleUrl(language.code, '')} 
+                  selected={language.code === lang}
+                >
+                  {language.flag} {language.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // 메뉴 토글 기능
+      document.getElementById('menuToggle')?.addEventListener('click', function() {
+        document.querySelector('.menu')?.classList.toggle('active');
+      });
+      
+      // 언어 드롭다운 토글
+      document.querySelector('.selected-language')?.addEventListener('click', function() {
+        document.querySelector('.language-dropdown')?.classList.toggle('show');
+      });
+      
+      // 외부 클릭 시 드롭다운 닫기
+      document.addEventListener('click', function(event) {
+        const selector = document.querySelector('.language-selector');
+        const dropdown = document.querySelector('.language-dropdown');
+        
+        if (selector && !selector.contains(event.target)) {
+          dropdown?.classList.remove('show');
+        }
+      });
+      
+      // 스크롤 시 헤더 스타일 변경
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 100) {
+          header?.classList.add('scrolled');
+        } else {
+          header?.classList.remove('scrolled');
+        }
+      });
+    </script>
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  /* 헤더 스타일 */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    background: rgba(18, 18, 18, 0.5);
+    backdrop-filter: blur(10px);
+  }
+  
+  header.scrolled {
+    padding: 1rem 0;
+    background: rgba(18, 18, 18, 0.9);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo a {
+    font-size: 2rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  
+  .menu {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menu li {
+    margin-left: 1.5rem;
+  }
+  
+  .menu li a {
+    position: relative;
+    font-weight: 500;
+    padding: 0.5rem 0;
+  }
+  
+  .menu li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width 0.3s ease;
+  }
+  
+  .menu li a:hover::after {
+    width: 100%;
+  }
+  
+  /* 언어 선택기 스타일 */
+  .language-selector {
+    position: relative;
+  }
+  
+  .selected-language {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  .selected-language:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .flag {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .selected-language .fa-chevron-down {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    transition: transform 0.3s;
+  }
+  
+  .language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 150px;
+    background: var(--color-card);
+    border-radius: 5px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 1001;
+  }
+  
+  .language-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .language-dropdown li {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .language-dropdown li a {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    transition: background 0.3s;
+  }
+  
+  .language-dropdown li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .language-dropdown li.active a {
+    background: rgba(255, 62, 157, 0.1);
+    color: var(--color-primary);
+  }
+  
+  /* 모바일 메뉴 */
+  .menu-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  /* 푸터 스타일 */
+  footer {
+    background-color: #0a0a0a;
+    padding: 4rem 0 2rem;
+    margin-top: 6rem;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .footer-logo {
+    flex: 1;
+    min-width: 200px;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-logo span {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  
+  .footer-logo p {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+  
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .footer-links a {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  
+  .footer-links a:hover {
+    opacity: 1;
+    color: var(--color-primary);
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s;
+  }
+  
+  .social-links a:hover {
+    background: var(--gradient-primary);
+    transform: translateY(-3px);
+  }
+  
+  .language-selector-footer select {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 5px;
+    color: var(--color-text);
+    font-family: inherit;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    padding-right: 2rem;
+  }
+  
+  /* 반응형 스타일 */
+  @media (max-width: 992px) {
+    .menu li {
+      margin-left: 1rem;
+    }
+    
+    .lang-name {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+    
+    .menu {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100vh;
+      background: var(--color-card);
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2rem;
+      overflow-y: auto;
+      transition: right 0.3s ease;
+      z-index: 1001;
+    }
+    
+    .menu.active {
+      right: 0;
+      box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .menu li {
+      margin: 0 0 1rem 0;
+      width: 100%;
+    }
+    
+    .menu li a {
+      display: block;
+      padding: 0.5rem 0;
+    }
+    
+    .language-selector {
+      margin-top: 2rem;
+      width: 100%;
+    }
+    
+    .selected-language {
+      justify-content: space-between;
+    }
+    
+    .language-dropdown {
+      position: static;
+      width: 100%;
+      margin-top: 0.5rem;
+      box-shadow: none;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .language-dropdown.show {
+      display: block;
+    }
+    
+    .lang-name {
+      display: inline-block;
+    }
+    
+    /* 푸터 모바일 스타일 */
+    .footer-content {
+      flex-direction: column;
+    }
+    
+    .footer-logo, .footer-links, .social-links, .language-selector-footer {
+      margin-bottom: 2rem;
+    }
+  }
 </style>

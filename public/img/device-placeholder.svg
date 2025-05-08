@@ -1,0 +1,43 @@
+<svg width="400" height="500" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="deviceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff3e9d" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#9d00ff" stop-opacity="0.7" />
+    </linearGradient>
+    <linearGradient id="screenGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2e2e2e" />
+      <stop offset="100%" stop-color="#1a1a1a" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Device Body -->
+  <rect x="100" y="50" width="200" height="400" rx="20" fill="#333" />
+  
+  <!-- Device Screen -->
+  <rect x="110" y="70" width="180" height="320" rx="5" fill="url(#screenGradient)" />
+  
+  <!-- Buttons/Controls -->
+  <circle cx="200" cy="420" r="20" fill="#222" stroke="#444" stroke-width="1" />
+  <rect x="160" y="400" width="20" height="5" rx="2" fill="#444" />
+  <rect x="220" y="400" width="20" height="5" rx="2" fill="#444" />
+  
+  <!-- Glow Effect -->
+  <rect x="100" y="50" width="200" height="400" rx="20" fill="url(#deviceGradient)" filter="url(#glow)" opacity="0.5" />
+  
+  <!-- Screen Elements -->
+  <rect x="130" y="100" width="140" height="20" rx="2" fill="#ff3e9d" opacity="0.7" />
+  <rect x="130" y="140" width="80" height="15" rx="2" fill="#fff" opacity="0.5" />
+  <rect x="130" y="165" width="140" height="10" rx="2" fill="#fff" opacity="0.3" />
+  <rect x="130" y="185" width="120" height="10" rx="2" fill="#fff" opacity="0.3" />
+  <rect x="130" y="225" width="60" height="30" rx="15" fill="#ff3e9d" opacity="0.8" />
+  
+  <!-- Decorative Elements -->
+  <circle cx="160" cy="280" r="5" fill="#9d00ff" opacity="0.7" />
+  <circle cx="180" cy="280" r="5" fill="#ff3e9d" opacity="0.7" />
+  <circle cx="200" cy="280" r="5" fill="#9d00ff" opacity="0.7" />
+  <circle cx="220" cy="280" r="5" fill="#ff3e9d" opacity="0.7" />
+</svg>
